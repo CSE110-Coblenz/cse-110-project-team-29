@@ -1,0 +1,29 @@
+{
+  "name": "cse-110-project-team-29",
+  "version": "1.0.0",
+  "description": "Fresh repository with main branch.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSE110-Coblenz/cse-110-project-team-29.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSE110-Coblenz/cse-110-project-team-29/issues"
+  },
+  "homepage": "https://github.com/CSE110-Coblenz/cse-110-project-team-29#readme",
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "@types/node": "^24.9.2",
+    "prisma": "^6.18.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}
