@@ -1,66 +1,81 @@
 import Konva from "konva";
-import type { View } from "../../types.ts";
-import type { STAGE_WIDTH } from "../../costants.ts"
-import type { reward } from "./RewardsModel.ts";
+import { ViewInterface } from "./ViewInterface";
+import { RewardScreenController } from "./RewardScreenController";
+
 
 /**
- * Renders the Rewards Screen Popup
+ * RewardsView - Renders the Rewards Screen Popup
  */
-export class RewardsView implements View {
-    
-    private group1: Konva.Group;
-    private group2: Konva.Group;
-    private rewardsTxt: Konva.Text;
-    
+export class RewardsView implements ViewInterface {
+    private controller: RewardScreenController;
 
-    constructor(onContinue: () => void){
-        this.group1 = new Konva.Group({visable: false});
-        this.group2 = new Konva.Group({visable: false});
-        //Main Title Text
-        const title = new Konva.Text({
-            //x: Stage-Width / 2;
-            //y: Stage-Height / 2;
-            text: "You Have Gotten the Question Correct!!!",
-            font: 48,
-            fontFamily: "Jomolhari",
-            fill: "Black",
-            align: "center"
+    private layer: Konva.Layer;
 
+    private barBg: Konva.Rect;
+    private barFg: Konva.Rect;
+    private cashText: Konva.Text;
+    private continueButton: Konva.Rect;
+    private continueText: Konva.Text;
+    private group: Konva.Group;
+
+    constructor(controller: RewardScreenController, containerId: string){
+        this.controller = controller;
+
+        this.layer = new Konva.Layer;
+
+        this.group = new Konva.Group({ visible: false});
+        this.layer.add(this.group);
+
+        this.createPopup();
+        this.initializeButton();
+
+        this.layer.draw();
+    }
+
+    private createPopup(): void {
+        //Background
+        const popupBg = new Konva.Rect({
+            x: 150,
+            y: 100,
+            width: 500
         });
+        this.group.add(popupBg);
 
+        //Title Text
+        const title = new Konva.Text({
+            x: 200,
+            y: 130,
+            text: "You Have Gotten The Question Correct!!",
+            fontSize: 20,
+            fontFamily: "Arial",
+            fill: "#000000",
+            width: 400,
+            align: "center",
+        });
+        this.group.add(title);
 
-        const actTitle = new Konva.text({
+        //Cash Text
+        this.cashText = new Konva.Text({
             //x
             //y
-            text: "Act $[] Progress",
-            font: 24,
-            fontFamily: "Jomolhari",
-            fill: "Black",
+            text: "Money Earned: $0",
+            fontSize: 18,
+            fontFamily: "Arial",
+            fill: "#000000",
+            width: 400,
+            align: "center",
+        });
+        this.group.add(this.cashText);
+
+        //Progress Bar Code
+        this.barBg = new Konva.Rect({
             
         })
 
-        //Progress Bar
-        const BgBar = new Konva.Rect({
-            x: 43, //Placeholder Value
-            y: 34, //Placeholder Value
-            width: 300,
-            height: 30,
-            fill: "#ffffffff",
-            cornerRadius: 10,
-        });
-
-        const FgBar = new Konva.Rect({
-            x: 43, //Placeholder Value
-            y: 34, //Placeholder Value
-            width: 0,
-            height: 30,
-            fill: "#06791fff",
-            cornerRadius: 10,
-        })
-
-
-
     }
 
+    private initializeButton(): void {
+
+    }
 
 }
