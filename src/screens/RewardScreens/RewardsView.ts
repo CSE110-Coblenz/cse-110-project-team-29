@@ -12,7 +12,7 @@ export class RewardsView implements ViewInterface {
     private layer: Konva.Layer;
 
     private barBg: Konva.Rect;
-    private barFg: Konva.Rect;
+    private barFill: Konva.Rect;
     private cashText: Konva.Text;
     private continueButton: Konva.Rect;
     private continueText: Konva.Text;
@@ -56,8 +56,8 @@ export class RewardsView implements ViewInterface {
 
         //Cash Text
         this.cashText = new Konva.Text({
-            //x
-            //y
+            x: 200,
+            y: 130,
             text: "Money Earned: $0",
             fontSize: 18,
             fontFamily: "Arial",
@@ -69,13 +69,85 @@ export class RewardsView implements ViewInterface {
 
         //Progress Bar Code
         this.barBg = new Konva.Rect({
-            
-        })
+
+        });
+        this.group.add(this.barBg);
+
+        this.barFill = new Konva.Rect({
+
+        });
+        this.group.add(this.barFill);
+
+        /**
+         * Continue Button Code
+         */
+        this.continueButton = new Konva.Rect({
+
+        });
+
+        this.continueText = new Konva.Text({
+            //x
+            //y
+            text: "Continue",
+            fontSize: 18,
+            fontFamily: "Arial",
+            fill: "#000000",
+            width: 400,
+            align: "center"
+        });
 
     }
 
+    /**
+     * Code to get the Continue button to work
+     */
     private initializeButton(): void {
+        //Hover Animation
+        this.continueButton.on("mousecenter", () => {
+            document.body.style.cursor = "pointer";
+            this.continueButton.scale({ x:1.1, y:1.1 });
+            this.layer.draw();
+        });
 
+        //Leaves Animation
+        this.continueButton.on("mouseleave", () => {
+            document.body.style.cursor = "default";
+            this.continueButton.scale({ x: 1, y: 1, });
+            this.layer.draw();
+        });
+
+        //Click event
+        this.continueButton.on("click", () => {
+            this.hide();
+            //Code that handles the next page
+        });
     }
+
+    public show(): void {
+        this.group.visible(true);
+        this.update();
+        this.layer.draw();
+    }
+
+    public hide(): void {
+        this.group.visible(false);
+        this.layer.draw();
+    }
+
+    public update(): void {
+        const progress = this.controller.getProgress();
+        const money = this.controller.getCash();
+
+        //Update the Progress Bar
+        this.barFill.width(400 * progress);
+        this.cashText.text(`Money Earned: $${money.toFixed(2)}`);
+
+        if (progress == 1){
+            //Code to check when act is complete
+        }
+
+        this.layer.draw();
+    }
+
 
 }
