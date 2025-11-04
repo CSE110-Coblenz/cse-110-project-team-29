@@ -11,15 +11,16 @@ export class RewardsView implements ViewInterface {
 
     private layer: Konva.Layer;
 
-    private barBg: Konva.Rect;
-    private barFill: Konva.Rect;
-    private cashText: Konva.Text;
-    private continueButton: Konva.Rect;
-    private continueText: Konva.Text;
+    private barBg!: Konva.Rect;
+    private barFill!: Konva.Rect;
+    private cashText!: Konva.Text;
+    private continueButton!: Konva.Rect;
+    private continueText!: Konva.Text;
     private group: Konva.Group;
 
     constructor(controller: RewardScreenController, containerId: string){
         this.controller = controller;
+        
 
         this.layer = new Konva.Layer;
 
@@ -69,12 +70,22 @@ export class RewardsView implements ViewInterface {
 
         //Progress Bar Code
         this.barBg = new Konva.Rect({
-
+            x: 200,
+            y: 240,
+            width: 400,
+            height: 20,
+            fill: "#555",
+            cornerRadius: 10,
         });
         this.group.add(this.barBg);
 
         this.barFill = new Konva.Rect({
-
+            x: 200,
+            y: 240,
+            width: 0,
+            height: 20,
+            fill: "#128f1c",
+            cornerRadius: 10,
         });
         this.group.add(this.barFill);
 
@@ -82,12 +93,21 @@ export class RewardsView implements ViewInterface {
          * Continue Button Code
          */
         this.continueButton = new Konva.Rect({
-
+            x: 300,
+            y: 300,
+            width: 200,
+            height: 60,
+            fill: "#66666cff",
+            cornerRadius: 15,
+            shadowColor: "#000000",
+            shadowOffset: { x:3, y:3 },
+            shadowOpacity: 0.5,
         });
+        this.group.add(this.continueButton);
 
         this.continueText = new Konva.Text({
-            //x
-            //y
+            x: 300,
+            y: 318,
             text: "Continue",
             fontSize: 18,
             fontFamily: "Arial",
@@ -95,6 +115,7 @@ export class RewardsView implements ViewInterface {
             width: 400,
             align: "center"
         });
+        this.group.add(this.continueText);
 
     }
 

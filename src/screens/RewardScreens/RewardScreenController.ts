@@ -25,10 +25,28 @@ export class RewardScreenController {
         this.model.incrementProgress();
 
         if(this.view) {
+            this.view.update();
+            this.view.show();
+        }
+    }
+
+    public continue(): void {
+        if (this.view) {
+            this.view.hide();
+        }
+
+        if(this.model.isActComplete()) {
             
         }
     }
 
 
+    public getProgress(): number {
+        return this.model.getProgress();
+    }
+
+    public getCash(): number {
+        return this.model.getCash();
+    }
     
 }
