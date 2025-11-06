@@ -19,10 +19,10 @@ export class PrismaDatabase implements Database {
     await this.prisma.question.createMany({
       data: [
         { question: "One of the games here at House of Odds has a 2-sided die, a 4-sided die, and a 6-sided die. What are the odds of rolling a (2+4+6) ?", answer: "1/48" },
-        { question: "At the House of Odds, there’s a game where you bet on what suit a random card pulled from a deck of playing cards will be. Cards are pulled without replacement. What are the odds that the card is hearts X times in a row? A deck of playing cards has 52 cards and 13 cards of each suit ?", answer:"" },
-        { question: "You’ve been trying to find the bathroom on the Casino floor and have gotten lost! There are six doors in front of you, and only one of them is the bathroom. What are the odds that it will take you X tries to find the bathroom. (Please put your answer as a simplified fraction)", answer:""},
-        { question: "At this table, a dealer rolls two 8-sided dice and people pet on what number the dice total up to. What is the probability that the dice total up to X", answer:""},
-        { question: "At a game table, a fair spinner is divided into X equal sections. What are the odds of spinning the same number twice in a row? (Please put your answer as a simplified fraction)", answer:""},
+        { question: "At the House of Odds, there’s a game where you bet on what suit a random card pulled from a deck of playing cards will be. Cards are pulled without replacement. What are the odds that the card is hearts 3 times in a row? A deck of playing cards has 52 cards and 13 cards of each suit ?", answer:"11/850" },
+        { question: "You’ve been trying to find the bathroom on the Casino floor and have gotten lost! There are six doors in front of you, and only one of them is the bathroom. What are the odds that you find the bathroom within 4 tries ?. (Please put your answer as a simplified fraction)", answer:"4/6"},
+        { question: "At this table, a dealer rolls two 8-sided dice and people bet on what number the dice total up to. What is the probability that the dice total up to 10", answer: "7/64"},
+        { question: "At a game table, a fair spinner is divided into 5 equal sections. What are the odds of spinning the same number twice in a row? (Please put your answer as a simplified fraction)", answer:"1/5"},
 
         { question: "At this table in the House of Odds, you roll both a 6 sided dice and 8 sided dice. You win if there is at least one X or if the total is above Y. Your total odds of winning are? (Please put your answer as a simplified fraction)", answer:""},
         { question: "At another table, you roll two X-sided dice and you win if you get the max possible roll. Using your dice skills, you’re able to guarantee that at least one of the dice will be an X. What are the odds that you win?", answer:""},
