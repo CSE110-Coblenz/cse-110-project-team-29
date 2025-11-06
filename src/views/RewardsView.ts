@@ -1,12 +1,16 @@
 import Konva from "konva";
-import { ViewInterface } from "./ViewInterface";
-import { RewardScreenController } from "./RewardScreenController";
+import type { View } from "./View";
+import { RewardScreenController } from "../controller/RewardScreenController";
+import { STAGE_WIDTH } from "../constants";
+import { Group } from "konva/lib/Group";
 
 
 /**
  * RewardsView - Renders the Rewards Screen Popup
  */
-export class RewardsView implements ViewInterface {
+export class RewardsView implements View {
+    private group: Konva.Group;
+    
     private controller: RewardScreenController;
 
     private layer: Konva.Layer;
@@ -16,12 +20,10 @@ export class RewardsView implements ViewInterface {
     private cashText!: Konva.Text;
     private continueButton!: Konva.Rect;
     private continueText!: Konva.Text;
-    private group: Konva.Group;
 
     constructor(controller: RewardScreenController, containerId: string){
         this.controller = controller;
         
-
         this.layer = new Konva.Layer;
 
         this.group = new Konva.Group({ visible: false});
@@ -36,8 +38,8 @@ export class RewardsView implements ViewInterface {
     private createPopup(): void {
         //Background
         const popupBg = new Konva.Rect({
-            x: 150,
-            y: 100,
+            x: STAGE_WIDTH / 2,
+            y: 150,
             width: 500
         });
         this.group.add(popupBg);
@@ -144,15 +146,19 @@ export class RewardsView implements ViewInterface {
         });
     }
 
-    public show(): void {
+    show(): void {
         this.group.visible(true);
         this.update();
         this.layer.draw();
     }
 
-    public hide(): void {
+    hide(): void {
         this.group.visible(false);
         this.layer.draw();
+    }
+
+    getGroup(): Group {
+        return this.group;
     }
 
     public update(): void {
