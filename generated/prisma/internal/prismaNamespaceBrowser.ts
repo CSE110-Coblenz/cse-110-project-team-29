@@ -66,7 +66,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const QuestionScalarFieldEnum = {
   id: 'id',
-  question: 'question'
+  question: 'question',
+  answer: 'answer'
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]

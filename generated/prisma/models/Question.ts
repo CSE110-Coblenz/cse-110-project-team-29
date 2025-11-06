@@ -36,16 +36,19 @@ export type QuestionSumAggregateOutputType = {
 export type QuestionMinAggregateOutputType = {
   id: number | null
   question: string | null
+  answer: string | null
 }
 
 export type QuestionMaxAggregateOutputType = {
   id: number | null
   question: string | null
+  answer: string | null
 }
 
 export type QuestionCountAggregateOutputType = {
   id: number
   question: number
+  answer: number
   _all: number
 }
 
@@ -61,16 +64,19 @@ export type QuestionSumAggregateInputType = {
 export type QuestionMinAggregateInputType = {
   id?: true
   question?: true
+  answer?: true
 }
 
 export type QuestionMaxAggregateInputType = {
   id?: true
   question?: true
+  answer?: true
 }
 
 export type QuestionCountAggregateInputType = {
   id?: true
   question?: true
+  answer?: true
   _all?: true
 }
 
@@ -163,6 +169,7 @@ export type QuestionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type QuestionGroupByOutputType = {
   id: number
   question: string
+  answer: string
   _count: QuestionCountAggregateOutputType | null
   _avg: QuestionAvgAggregateOutputType | null
   _sum: QuestionSumAggregateOutputType | null
@@ -191,11 +198,13 @@ export type QuestionWhereInput = {
   NOT?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[]
   id?: Prisma.IntFilter<"Question"> | number
   question?: Prisma.StringFilter<"Question"> | string
+  answer?: Prisma.StringFilter<"Question"> | string
 }
 
 export type QuestionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
 }
 
 export type QuestionWhereUniqueInput = Prisma.AtLeast<{
@@ -204,11 +213,13 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.QuestionWhereInput[]
   NOT?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[]
   question?: Prisma.StringFilter<"Question"> | string
+  answer?: Prisma.StringFilter<"Question"> | string
 }, "id">
 
 export type QuestionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
   _count?: Prisma.QuestionCountOrderByAggregateInput
   _avg?: Prisma.QuestionAvgOrderByAggregateInput
   _max?: Prisma.QuestionMaxOrderByAggregateInput
@@ -222,43 +233,52 @@ export type QuestionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.QuestionScalarWhereWithAggregatesInput | Prisma.QuestionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Question"> | number
   question?: Prisma.StringWithAggregatesFilter<"Question"> | string
+  answer?: Prisma.StringWithAggregatesFilter<"Question"> | string
 }
 
 export type QuestionCreateInput = {
   question: string
+  answer: string
 }
 
 export type QuestionUncheckedCreateInput = {
   id?: number
   question: string
+  answer: string
 }
 
 export type QuestionUpdateInput = {
   question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QuestionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QuestionCreateManyInput = {
   id?: number
   question: string
+  answer: string
 }
 
 export type QuestionUpdateManyMutationInput = {
   question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QuestionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QuestionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
 }
 
 export type QuestionAvgOrderByAggregateInput = {
@@ -268,11 +288,13 @@ export type QuestionAvgOrderByAggregateInput = {
 export type QuestionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
 }
 
 export type QuestionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
 }
 
 export type QuestionSumOrderByAggregateInput = {
@@ -296,24 +318,28 @@ export type IntFieldUpdateOperationsInput = {
 export type QuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   question?: boolean
+  answer?: boolean
 }, ExtArgs["result"]["question"]>
 
 export type QuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   question?: boolean
+  answer?: boolean
 }, ExtArgs["result"]["question"]>
 
 export type QuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   question?: boolean
+  answer?: boolean
 }, ExtArgs["result"]["question"]>
 
 export type QuestionSelectScalar = {
   id?: boolean
   question?: boolean
+  answer?: boolean
 }
 
-export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "question", ExtArgs["result"]["question"]>
+export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "question" | "answer", ExtArgs["result"]["question"]>
 
 export type $QuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Question"
@@ -321,6 +347,7 @@ export type $QuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     question: string
+    answer: string
   }, ExtArgs["result"]["question"]>
   composites: {}
 }
@@ -746,6 +773,7 @@ export interface Prisma__QuestionClient<T, Null = never, ExtArgs extends runtime
 export interface QuestionFieldRefs {
   readonly id: Prisma.FieldRef<"Question", 'Int'>
   readonly question: Prisma.FieldRef<"Question", 'String'>
+  readonly answer: Prisma.FieldRef<"Question", 'String'>
 }
     
 

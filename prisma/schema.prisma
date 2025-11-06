@@ -17,4 +17,5 @@ datasource db {
 model Question {
    id         Int    @id @default(autoincrement())
    question   String
+   answer     String
 }
