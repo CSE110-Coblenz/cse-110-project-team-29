@@ -1,6 +1,6 @@
 import Konva from "konva";
 import type { View } from "./View";
-import { STAGE_WIDTH } from "../constants.ts";
+import { STAGE_WIDTH } from "../constants";
 
 /**
  * TitleScreenView - Renders the title screen
