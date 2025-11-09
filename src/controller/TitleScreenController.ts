@@ -1,5 +1,5 @@
 import { ScreenController, ScreenSwitcher } from "./ScreenController";
-import { TitleScreenView } from "../views/TitleScreenView.ts";
+import { TitleScreenView } from "../views/TitleScreenView";
 
 /**
  * TitleScreenController - Handles title interactions
