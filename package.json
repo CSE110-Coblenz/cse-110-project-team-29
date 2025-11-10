@@ -2,9 +2,11 @@
   "name": "cse-110-project-team-29",
   "type": "module",
   "dependencies": {
-    "konva": "^10.0.8"
+    "konva": "^10.0.8",
+    "vitest": "^4.0.8"
   },
   "scripts": {
+    "test": "vitest run",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
