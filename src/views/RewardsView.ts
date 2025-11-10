@@ -144,6 +144,3 @@ export class RewardsView implements View {
     return this.group;
   }
 }
-
-
-
