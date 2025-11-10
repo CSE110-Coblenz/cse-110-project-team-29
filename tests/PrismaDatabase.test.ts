@@ -1,6 +1,6 @@
 // tests/PrismaDatabase.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PrismaDatabase } from "../src/controller/primadatabase";
+import { PrismaDatabase } from "../src/controller/PrismaDatabase";
 import { PrismaClient } from "@prisma/client";
 
 // Mock PrismaClient

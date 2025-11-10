@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import type { Database } from "./databaseinterface.ts";
+import type { Database } from "./DatabaseInterface.ts";
 
 export class PrismaDatabase implements Database {
   private prisma = new PrismaClient();
