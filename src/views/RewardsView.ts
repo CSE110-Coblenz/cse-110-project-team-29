@@ -32,8 +32,8 @@ export class RewardsView implements View {
     fillLinearGradientStartPoint: { x: 0, y: 0 },
     fillLinearGradientEndPoint: { x: 0, y: this.stage.height() },
     fillLinearGradientColorStops: [
-       0, "darkred",      
-       1, "gold"  
+       0, "black",      
+       1, "darkred"  
     ]
     });
      this.group.add(gradient);
@@ -59,7 +59,7 @@ export class RewardsView implements View {
       y: 400,
       width: 240,
       height: 70,
-      fill: "#00adb5",
+      fill: "gold",
       cornerRadius: 12,
       shadowColor: "#000",
       shadowBlur: 10,
@@ -72,23 +72,25 @@ export class RewardsView implements View {
     this.continueText = new Konva.Text({
       x: this.stage.width() / 2,
       y: 420,
-      text: "Continue",
+      text: "CONTINUE",
       fontSize: 28,
+      fontStyle: "bold italic",
       fontFamily: "Arial",
-      fill: "#fff",
+      fill: "black",
     });
+
     this.continueText.offsetX(this.continueText.width() / 2);
     this.group.add(this.continueText);
 
     // Hover effect for button
     this.continueButton.on("mouseenter", () => {
       document.body.style.cursor = "pointer";
-      this.continueButton.fill("#00cfcf");
+      this.continueButton.fill("lightblue");
       this.layer.draw();
     });
     this.continueButton.on("mouseleave", () => {
       document.body.style.cursor = "default";
-      this.continueButton.fill("#00adb5");
+      this.continueButton.fill("gold");
       this.layer.draw();
     });
 
