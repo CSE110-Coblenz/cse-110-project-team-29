@@ -10,5 +10,4 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npx tsc --noEmit
-      - run: |
-             npm test || echo "✅ No tests found — skipping test stage"
+      - run: npm test
