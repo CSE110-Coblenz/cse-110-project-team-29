@@ -2,14 +2,15 @@ import Konva from "konva";
 import type { View } from "./View";
 import { STAGE_HEIGHT, STAGE_WIDTH } from "../constants";
 import { Group } from "konva/lib/Group";
+import { RewardScreenController } from "../controller/RewardScreenController";
 
 /**
  * Rewards View Model
  */
 export class RewardsView implements View {
     private group: Konva.Group;
-    
     private cashText: Konva.Text;
+    private barFg: Konva.Rect;
 
     constructor(handleContinue: () => void) {
         //Main Group
@@ -74,13 +75,43 @@ export class RewardsView implements View {
 
         //Progress Bar Code
         const barGroup = new Konva.Group();
+        const barBg = new Konva.Rect({
+            x: STAGE_WIDTH / 2,
+            y: STAGE_HEIGHT / 2 - 100,
+            width: 400,
+            height: 20,
+            fill: "#7e7a7aff",
+            cornerRadius: 10,
+        });
+        
+
+        this.barFg = new Konva.Rect({
+            x: STAGE_WIDTH / 2,
+            y: STAGE_HEIGHT / 2 - 100,
+            width: 0,
+            height: 20,
+            fill: "#07721eff",
+            cornerRadius: 10,
+        });
+
+        barGroup.add(barBg);
+        barGroup.add(this.barFg);
+
+        this.group.add(barGroup);
     }
 
 
-    //Updates the Progress
-    updateCash(): void{
-        const cash = this.controller.getCash();
-        this.cashText.text(`Cash Earned: $${}`)
+    //Update Code For Progress and Cash
+    updateCash(cash: number): void {
+        this.cashText.text(`Money Earned: $${cash}`)
+    }
+    
+    updateProgress(progress: number): void {
+        const clampProg = Math.max(0, Math.min(progress, 1));
+
+        this.barFg.width(400 * clampProg);
+
+        this.barFg.getLayer()?.batchDraw();
     }
 
     /**
