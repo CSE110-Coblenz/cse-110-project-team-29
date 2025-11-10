@@ -1,6 +1,6 @@
 import Konva from "konva";
 import type { View } from "./View";
-import { STAGE_WIDTH } from "../constants";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants";
 
 /**
  * TitleScreenView - Renders the title screen
@@ -11,16 +11,27 @@ export class TitleScreenView implements View {
 	constructor(onStartClick: () => void) {
 		this.group = new Konva.Group({ visible: true });
 
+		// Background
+		Konva.Image.fromURL("act1Background.png", (bg) => {
+			bg.x(0);
+			bg.y(0);
+			bg.width(STAGE_WIDTH);
+			bg.height(STAGE_HEIGHT);
+
+			this.group.add(bg);
+			bg.moveToBottom();
+		});
+	
 		// Title text
 		const title = new Konva.Text({
 			x: STAGE_WIDTH / 2,
-			y: 150,
+			y: STAGE_HEIGHT / 3,
 			text: "WELCOME TO HOUSE OF ODDS",
 			fontSize: 48,
-			fontFamily: "Arial",
+			fontFamily: "Jomolhari",
 			fill: "white",
 			stroke: "white",
-			strokeWidth: 2,
+			strokeWidth: 1,
 			align: "center",
 		});
 		// Center the text using offsetX
@@ -28,26 +39,33 @@ export class TitleScreenView implements View {
 		this.group.add(title);
 
 		const startButtonGroup = new Konva.Group();
+		// Start button
 		const startButton = new Konva.Rect({
-			x: STAGE_WIDTH / 2 - 100,
-			y: 300,
-			width: 200,
-			height: 60,
-			fill: "darkred",
-			cornerRadius: 10,
+			x: STAGE_WIDTH / 2,
+			y: STAGE_HEIGHT / 2,
+			width: 240,
+			height: 80,
+			offsetX: 120,
+			fill: "#36151b",
 			stroke: "white",
-			strokeWidth: 3,
+			strokeWidth: 1,
 		});
+		startButton.cornerRadius(startButton.height() / 2)
+		startButton.offsetX(startButton.width() / 2);
+
+		// Start text
 		const startText = new Konva.Text({
 			x: STAGE_WIDTH / 2,
-			y: 315,
+			y: STAGE_HEIGHT / 2,
 			text: "START",
-			fontSize: 24,
-			fontFamily: "Arial",
+			fontSize: 40,
+			fontFamily: "Jomolhari",
 			fill: "white",
 			align: "center",
 		});
 		startText.offsetX(startText.width() / 2);
+		startText.offsetY((startText.fontSize() - startButton.height()) / 2)
+
 		startButtonGroup.add(startButton);
 		startButtonGroup.add(startText);
 		startButtonGroup.on("click", onStartClick);
