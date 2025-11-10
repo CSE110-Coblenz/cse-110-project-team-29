@@ -1,8 +1,8 @@
 import { AppScreenSwitcher } from "./controller/AppScreenSwitcher";
-import { questions } from "./questions.ts";
+import { ActModels } from "./models/GenericActModel.ts";
 
 function main() {
-    const switcher = new AppScreenSwitcher(questions);
+    const switcher = new AppScreenSwitcher(ActModels.getInstance().getQuestions());
     switcher.switchToScreen({ type: "act1" });
 }
 
