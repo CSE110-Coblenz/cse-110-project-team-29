@@ -1,6 +1,6 @@
 // RewardsView.ts
 import Konva from "konva";
-import type { View } from "./View";
+import type { View } from "./View.ts";
 import { Group } from "konva/lib/Group";
 
 export class RewardsView implements View {

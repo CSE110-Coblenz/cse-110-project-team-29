@@ -1,5 +1,5 @@
-import type { AppScreenSwitcher } from "./AppScreenSwitcher";
-import { ScreenController } from "./ScreenController";
+import type { AppScreenSwitcher } from "./AppScreenSwitcher.ts";
+import { ScreenController } from "./ScreenController.ts";
 
 export class GenericActController extends ScreenController {
 

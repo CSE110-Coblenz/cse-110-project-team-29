@@ -1,7 +1,7 @@
 // RewardsController.ts
-import { ScreenController } from "./ScreenController";
-import { RewardsView } from "../views/RewardsView";
-import { RewardsModel } from "../models/RewardsModel";
+import { ScreenController } from "./ScreenController.ts";
+import { RewardsView } from "../views/RewardsView.ts";
+import { RewardsModel } from "../models/RewardsModel.ts";
 
 export class RewardsController extends ScreenController {
 
@@ -12,7 +12,6 @@ export class RewardsController extends ScreenController {
 
   constructor(isCorrect: boolean, nextScreen: () => void) {
     super();
-
     this.isCorrect = isCorrect;
     this.nextScreen = nextScreen;
     this.view = new RewardsView(() => this.handleContinue());

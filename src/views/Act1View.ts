@@ -1,6 +1,6 @@
 // Act1View.ts
 import Konva from "konva";
-import type { View } from "./View";
+import type { View } from "./View.ts";
 import { RewardsModel } from "../models/RewardsModel.ts";
 
 export class Act1View implements View {

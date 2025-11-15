@@ -1,4 +1,4 @@
-import type {View} from "../views/View";
+import type {View} from "../views/View.ts";
 
 export type Screen =
     | { type: "title" }

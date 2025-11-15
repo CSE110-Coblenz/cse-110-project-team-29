@@ -1,11 +1,11 @@
-import type { ScreenController, Screen } from "./ScreenController";
-import { GenericActController } from "./GenericActController";
-import { RewardsController } from "./RewardScreenController";
-import { Act1View } from "../views/Act1View";
-import { Act2View } from "../views/Act2View";
-import { Act3View } from "../views/Act3View";
+import { ScreenController, type Screen, type ScreenSwitcher } from "./ScreenController.ts";
+import { GenericActController } from "./GenericActController.ts";
+import { RewardsController } from "./RewardScreenController.ts";
+import { Act1View } from "../views/Act1View.ts";
+import { Act2View } from "../views/Act2View.ts";
+import { Act3View } from "../views/Act3View.ts";
 
-export class AppScreenSwitcher implements ScreenController {
+export class AppScreenSwitcher implements ScreenSwitcher {
     private currentController: ScreenController | null = null;
     private currentAct: "act1" | "act2" | "act3" = "act1";
     private questions: {
@@ -19,6 +19,7 @@ export class AppScreenSwitcher implements ScreenController {
     }
 
     switchToScreen(screen: Screen) {
+
         this.currentController?.hide();
 
         switch (screen.type) {
@@ -70,18 +71,6 @@ export class AppScreenSwitcher implements ScreenController {
            this.currentController.init?.();
         }
 
-    }
-
-    getView() {
-        return this.currentController?.getView()!;
-    }
-
-    show() {
-        this.currentController?.show();
-    }
-
-    hide() {
-        this.currentController?.hide();
     }
 
     getCurrentAct() {
