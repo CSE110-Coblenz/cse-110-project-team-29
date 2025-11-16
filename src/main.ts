@@ -1,38 +1,39 @@
-import "./style.css";
 import Konva from "konva";
+import { EndOfGameScreenController } from "./Controller/EndOfGameScreenController";
+import { mockEndGameData } from "./Model/EndOfGameScreenModel";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "./constants";
 
-import { EndOfGameScreenController } from "./EndOfGameScreen/EndOfGameScreenController";
-import { mockEndGameData } from "./EndOfGameScreen/EndOfGameScreenModel";
+// 1) Create container div if not exists
+let app = document.getElementById("app");
+if (!app) {
+  app = document.createElement("div");
+  app.id = "app";
+  document.body.appendChild(app);
+}
 
-const app = document.getElementById("app") || (() => {
-  const d = document.createElement("div");
-  d.id = "app";
-  document.body.appendChild(d);
-  return d;
-})();
-
-// 1) crated Konva stage and layer
+// 2) Create stage and layer
 const stage = new Konva.Stage({
-  container: app as HTMLElement,
-  width: window.innerWidth,
-  height: window.innerHeight,
+  container: "app",            
+  width: STAGE_WIDTH,
+  height: STAGE_HEIGHT,
 });
+
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// 2) build the EndOfGameScreen
+// 3) Create End screen
 const end = new EndOfGameScreenController(stage.width(), stage.height());
 layer.add(end.getGroup());
 layer.draw();
 
-// 3) Button exit and play again(just print out)
+// 4) Test callbacks
 end.onRequestExit(() => console.log("Exit to Title clicked"));
 end.onRequestRetry(() => console.log("Play Again clicked"));
 
-// 4) fake data just for the test
+// 5) Show fake data
 end.showResults(mockEndGameData);
 
-// 5) adjustment
+// 6) Resize
 window.addEventListener("resize", () => {
   stage.size({ width: window.innerWidth, height: window.innerHeight });
   layer.batchDraw();

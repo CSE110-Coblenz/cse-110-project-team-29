@@ -1,9 +1,11 @@
 import Konva from "konva";
-import type { EndGameData, IScreenController } from "../types";
-import { EndOfGameScreenModel, mockEndGameData } from "./EndOfGameScreenModel";
-import { EndOfGameScreenView } from "./EndOfGameScreenView";
+import type { EndGameData } from "../types";
+import { EndOfGameScreenModel, mockEndGameData } from "../Model/EndOfGameScreenModel";
+import { EndOfGameScreenView } from "../views/EndOfGameScreenView";
+import { ScreenController } from "./ScreenController";
+import type { View } from "../views/View";
 
-export class EndOfGameScreenController implements IScreenController {
+export class EndOfGameScreenController extends ScreenController {
   private model = new EndOfGameScreenModel();
   private view: EndOfGameScreenView;
   private group: Konva.Group;
@@ -15,23 +17,46 @@ export class EndOfGameScreenController implements IScreenController {
     typeof Audio !== "undefined" ? new Audio("/gameover.mp3") : null;
 
   constructor(stageWidth: number, stageHeight: number) {
+    super(); 
+
     this.view = new EndOfGameScreenView(stageWidth, stageHeight);
     this.group = this.view.getGroup();
+
     this.view.onExitClick(() => this.onExitToTitle?.());
     this.view.onRetryClick(() => this.onRetry?.());
   }
 
-  getGroup() { return this.group; }
-  show() { this.view.show(); }
-  hide() { this.view.hide(); }
+  getView(): View {
+    return this.view;
+  }
 
-  /** check the data if there is no data use mock data
-   */
+  getGroup() {
+    return this.group;
+  }
+
+  show() {
+    super.show();
+  }
+
+  hide() {
+    super.hide();
+  }
   showResults(data?: EndGameData) {
     const d = data ?? mockEndGameData;
     this.model.setData(d);
-    this.view.render(this.model.getData(), this.group.getStage()!.width(), this.group.getStage()!.height());
-    try { this.gameOverSound && (this.gameOverSound.currentTime = 0, this.gameOverSound.play()); } catch {}
+
+    const stage = this.group.getStage();
+    if (stage) {
+      this.view.render(this.model.getData(), stage.width(), stage.height());
+    }
+
+    try {
+      if (this.gameOverSound) {
+        this.gameOverSound.currentTime = 0;
+        this.gameOverSound.play();
+      }
+    } catch {}
+
     this.show();
   }
 
