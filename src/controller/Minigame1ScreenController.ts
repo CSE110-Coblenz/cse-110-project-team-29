@@ -1,5 +1,6 @@
 import { plusOrMinusInt } from "../helper";
 import { randIntBetween } from "../helper";
+import { tripletsEqual } from "../helper";
 	
 
 class Minigame1Controller {
@@ -120,20 +121,81 @@ class Minigame1Controller {
 		let d1 = this.dice1;
 		let d2 = this.dice2;
 		let d3 = this.dice3;
+		let dice_sum = d1+d2+d3;
 		switch (this.betType) {
-			case "threeOfAKindIndividualOdds_111": {
-				if (d1 == 1 && d2 == 1 && d3 == 1) {
-					this.isWin = true;
-				}
-				break;
-			}
-			case "threeOfAKindIndividualOdds_222": {
-				if (d1 == 2 && d2 == 2 && d3 == 2) {
-					this.isWin = true;
-				}
-				break;
-			}
-	}
+			case "threeOfAKindIndividualOdds_111": {if (d1 == 1 && d2 == 1 && d3 == 1) {this.isWin = true;} break;}
+			case "threeOfAKindIndividualOdds_222": {if (d1 == 2 && d2 == 2 && d3 == 2) {this.isWin = true;} break;}
+			case "threeOfAKindIndividualOdds_333": {if (d1 == 3 && d2 == 3 && d3 == 3) {this.isWin = true;} break;}
+			case "threeOfAKindIndividualOdds_444": {if (d1 == 4 && d2 == 4 && d3 == 4) {this.isWin = true;} break;}
+			case "threeOfAKindIndividualOdds_555": {if (d1 == 5 && d2 == 5 && d3 == 5) {this.isWin = true;} break;}
+			case "threeOfAKindIndividualOdds_666": {if (d1 == 6 && d2 == 6 && d3 == 6) {this.isWin = true;} break;}
+
+			case "threeOfAKindGroupOdds": {if (d1 == d2 && d2 == d3 && d3 == d1) {this.isWin = true;} break;}
+
+			case "pairAndSingleIndividualOdds_112": {if (tripletsEqual(d1,d2,d3,1,1,2)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_113": {if (tripletsEqual(d1,d2,d3,1,1,3)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_114": {if (tripletsEqual(d1,d2,d3,1,1,4)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_115": {if (tripletsEqual(d1,d2,d3,1,1,5)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_116": {if (tripletsEqual(d1,d2,d3,1,1,6)) {this.isWin = true;} break;}
+
+			case "pairAndSingleIndividualOdds_221": {if (tripletsEqual(d1,d2,d3,2,2,1)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_223": {if (tripletsEqual(d1,d2,d3,2,2,3)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_224": {if (tripletsEqual(d1,d2,d3,2,2,4)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_225": {if (tripletsEqual(d1,d2,d3,2,2,5)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_226": {if (tripletsEqual(d1,d2,d3,2,2,6)) {this.isWin = true;} break;}
+
+			case "pairAndSingleIndividualOdds_331": {if (tripletsEqual(d1,d2,d3,3,3,1)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_332": {if (tripletsEqual(d1,d2,d3,3,3,2)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_334": {if (tripletsEqual(d1,d2,d3,3,3,4)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_335": {if (tripletsEqual(d1,d2,d3,3,3,5)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_336": {if (tripletsEqual(d1,d2,d3,3,3,6)) {this.isWin = true;} break;}
+
+			case "pairAndSingleIndividualOdds_441": {if (tripletsEqual(d1,d2,d3,4,4,1)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_442": {if (tripletsEqual(d1,d2,d3,4,4,2)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_443": {if (tripletsEqual(d1,d2,d3,4,4,3)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_445": {if (tripletsEqual(d1,d2,d3,4,4,5)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_446": {if (tripletsEqual(d1,d2,d3,4,4,6)) {this.isWin = true;} break;}
+
+			case "pairAndSingleIndividualOdds_551": {if (tripletsEqual(d1,d2,d3,5,5,1)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_552": {if (tripletsEqual(d1,d2,d3,5,5,2)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_553": {if (tripletsEqual(d1,d2,d3,5,5,3)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_554": {if (tripletsEqual(d1,d2,d3,5,5,4)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_556": {if (tripletsEqual(d1,d2,d3,5,5,6)) {this.isWin = true;} break;}
+
+			case "pairAndSingleIndividualOdds_661": {if (tripletsEqual(d1,d2,d3,6,6,1)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_662": {if (tripletsEqual(d1,d2,d3,6,6,2)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_663": {if (tripletsEqual(d1,d2,d3,6,6,3)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_664": {if (tripletsEqual(d1,d2,d3,6,6,4)) {this.isWin = true;} break;}
+			case "pairAndSingleIndividualOdds_665": {if (tripletsEqual(d1,d2,d3,6,6,5)) {this.isWin = true;} break;}
+
+			case "threeSinglesIndividualOdds_123": {if (tripletsEqual(d1,d2,d3,1,2,3)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_124": {if (tripletsEqual(d1,d2,d3,1,2,4)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_125": {if (tripletsEqual(d1,d2,d3,1,2,5)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_126": {if (tripletsEqual(d1,d2,d3,1,2,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_134": {if (tripletsEqual(d1,d2,d3,1,3,4)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_135": {if (tripletsEqual(d1,d2,d3,1,3,5)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_136": {if (tripletsEqual(d1,d2,d3,1,3,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_145": {if (tripletsEqual(d1,d2,d3,1,4,5)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_146": {if (tripletsEqual(d1,d2,d3,1,4,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_156": {if (tripletsEqual(d1,d2,d3,1,5,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_234": {if (tripletsEqual(d1,d2,d3,2,3,4)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_235": {if (tripletsEqual(d1,d2,d3,2,3,5)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_236": {if (tripletsEqual(d1,d2,d3,2,3,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_245": {if (tripletsEqual(d1,d2,d3,2,4,5)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_246": {if (tripletsEqual(d1,d2,d3,2,4,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_256": {if (tripletsEqual(d1,d2,d3,2,5,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_345": {if (tripletsEqual(d1,d2,d3,3,4,5)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_346": {if (tripletsEqual(d1,d2,d3,3,4,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_356": {if (tripletsEqual(d1,d2,d3,3,5,6)) {this.isWin = true;} break;}
+			case "threeSinglesIndividualOdds_456": {if (tripletsEqual(d1,d2,d3,4,5,6)) {this.isWin = true;} break;}
+
+			case "threeOutOfFourOdds_1234": {if (tripletsEqual(d1,d2,d3,1,2,3)||tripletsEqual(d1,d2,d3,1,2,4)||tripletsEqual(d1,d2,d3,1,3,4)||tripletsEqual(d1,d2,d3,2,3,4)) {this.isWin = true;} break;}
+			case "threeOutOfFourOdds_2345": {if (tripletsEqual(d1,d2,d3,2,3,4)||tripletsEqual(d1,d2,d3,2,3,5)||tripletsEqual(d1,d2,d3,2,4,5)||tripletsEqual(d1,d2,d3,3,4,5)) {this.isWin = true;} break;}
+			case "threeOutOfFourOdds_2356": {if (tripletsEqual(d1,d2,d3,2,3,5)||tripletsEqual(d1,d2,d3,2,3,6)||tripletsEqual(d1,d2,d3,2,5,6)||tripletsEqual(d1,d2,d3,3,5,6)) {this.isWin = true;} break;}
+			case "threeOutOfFourOdds_3456": {if (tripletsEqual(d1,d2,d3,3,4,5)||tripletsEqual(d1,d2,d3,3,4,6)||tripletsEqual(d1,d2,d3,3,5,6)||tripletsEqual(d1,d2,d3,4,5,6)) {this.isWin = true;} break;}
+
+			
+		}
 
 
 }
