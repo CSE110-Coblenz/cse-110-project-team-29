@@ -194,7 +194,30 @@ class Minigame1Controller {
 			case "threeOutOfFourOdds_2356": {if (tripletsEqual(d1,d2,d3,2,3,5)||tripletsEqual(d1,d2,d3,2,3,6)||tripletsEqual(d1,d2,d3,2,5,6)||tripletsEqual(d1,d2,d3,3,5,6)) {this.isWin = true;} break;}
 			case "threeOutOfFourOdds_3456": {if (tripletsEqual(d1,d2,d3,3,4,5)||tripletsEqual(d1,d2,d3,3,4,6)||tripletsEqual(d1,d2,d3,3,5,6)||tripletsEqual(d1,d2,d3,4,5,6)) {this.isWin = true;} break;}
 
+			case "totals4Through17Odds_4":  {if (dice_sum == 4)  {this.isWin = true;} break;}
+			case "totals4Through17Odds_5":  {if (dice_sum == 5)  {this.isWin = true;} break;}
+			case "totals4Through17Odds_6":  {if (dice_sum == 6)  {this.isWin = true;} break;}
+			case "totals4Through17Odds_7":  {if (dice_sum == 7)  {this.isWin = true;} break;}
+			case "totals4Through17Odds_8":  {if (dice_sum == 8)  {this.isWin = true;} break;}
+			case "totals4Through17Odds_9":  {if (dice_sum == 9)  {this.isWin = true;} break;}
+			case "totals4Through17Odds_10": {if (dice_sum == 10) {this.isWin = true;} break;}
+			case "totals4Through17Odds_11": {if (dice_sum == 11) {this.isWin = true;} break;}
+			case "totals4Through17Odds_12": {if (dice_sum == 12) {this.isWin = true;} break;}
+			case "totals4Through17Odds_13": {if (dice_sum == 13) {this.isWin = true;} break;}
+			case "totals4Through17Odds_14": {if (dice_sum == 14) {this.isWin = true;} break;}
+			case "totals4Through17Odds_15": {if (dice_sum == 15) {this.isWin = true;} break;}
+			case "totals4Through17Odds_16": {if (dice_sum == 16) {this.isWin = true;} break;}
+			case "totals4Through17Odds_17": {if (dice_sum == 17) {this.isWin = true;} break;}
 			
+			case "smallOdds": {if (dice_sum <= 10) {this.isWin = true;} break;}
+			
+			case "bigOdds": {if (dice_sum >= 11) {this.isWin = true;} break;}
+
+			case "oddOdds": {if (dice_sum % 2 == 1) {this.isWin = true;} break;}
+
+			case "evenOdds": {if (dice_sum % 2 == 0) {this.isWin = true;} break;}
+
+			case "pairSameOdds": {if (d1 == d2 || d2 == d3 || d3 == d1) {this.isWin = true;} break;}
 		}
 
 
