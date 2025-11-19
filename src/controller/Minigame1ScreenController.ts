@@ -17,7 +17,6 @@ class Minigame1Controller {
 	private bigOdds: number;
 	private oddOdds: number;
 	private evenOdds: number;
-	private pairSameOdds: number;
 	private bet: number;
 	private betOdds: number;
 	private betType: string;
@@ -39,7 +38,6 @@ class Minigame1Controller {
 		this.bigOdds = 1;
 		this.oddOdds = 1;
 		this.evenOdds = 1;
-		this.pairSameOdds = 10;
 		this.bet = 0;
 		this.betOdds = 0;
 		this.betType = "";
@@ -67,7 +65,6 @@ class Minigame1Controller {
 		this.bigOdds = 1;
 		this.oddOdds = 1;
 		this.evenOdds = 1;
-		this.pairSameOdds = 10;
 	}
 
 	public randomize_odds() {
@@ -98,18 +95,33 @@ class Minigame1Controller {
 			}
 			this.totals4Through17Odds[i] += plusOrMinusInt(x);
 		}	
-		this.pairSameOdds += plusOrMinusInt(3);
 	}
 
-	public setBet(bet: number, betOdds: number, betType: string, required_dice: Array<number>) {
+	public setBet(bet: number, betType: string, required_dice: Array<number>) {
 		this.bet = bet; 
-		this.betOdds = betOdds;
 		this.betType = betType; 
 		for (let i = 0; i < 5; i++) {
 			this.required_dice[i] = required_dice[i];
 		}
+		this.betOdds = this.betOddsChoose();
 		//add code subtracting bet money from inventory. need to interact with reward system
 	}
+
+	public betOddsChoose(): number {
+		switch (this.betType) {
+			case "threeOfAKindIndividualOdds": {return this.threeOfAKindIndividualOdds;}
+			case "threeOfAKindGroupOdds": {return this.threeOfAKindGroupOdds;}
+			case "pairAndSingleIndividualOdds": {return this.pairAndSingleIndividualOdds;}
+			case "threeSinglesIndividualOdds": {return this.threeSinglesIndividualOdds;}
+			case "threeOutOfFourOdds": {return this.threeOutOfFourOdds;}
+			case "totals4Through17Odds":{return this.totals4Through17Odds[(this.required_dice[4] - 4)];}
+			case "smallOdds": {return this.smallOdds;}
+			case "bigOdds": {return this.bigOdds;}
+			case "oddOdds": {return this.oddOdds;}
+			case "evenOdds": {return this.evenOdds;}
+	}
+	return 0;
+}
 
 	public winBet() {
 		//add code adding bet + bet*betOdds money to inventory. need to interact with reward system
@@ -145,7 +157,6 @@ class Minigame1Controller {
 			case "bigOdds": {if (dice_sum >= 11) {this.isWin = true;} break;}
 			case "oddOdds": {if (dice_sum % 2 == 1) {this.isWin = true;} break;}
 			case "evenOdds": {if (dice_sum % 2 == 0) {this.isWin = true;} break;}
-			case "pairSameOdds": {if (d1 == d2 || d2 == d3 || d3 == d1) {this.isWin = true;} break;}
 		}
-}
+	}
 }
