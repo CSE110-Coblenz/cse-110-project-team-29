@@ -1,9 +1,10 @@
 import { plusOrMinusInt } from "../helper";
 import { randIntBetween } from "../helper";
 import { tripletsEqual } from "../helper";
+import { RewardsModel } from "../models/RewardsModel.ts";
 	
 
-class Minigame1Controller {
+export class Minigame1Controller {
 	private dice1: number;
 	private dice2: number;
 	private dice3: number;
@@ -22,6 +23,7 @@ class Minigame1Controller {
 	private betType: string;
 	private isWin: boolean;
 	private required_dice: Array<number>;
+	private model: RewardsModel;
 
 
 	constructor() {
@@ -43,6 +45,7 @@ class Minigame1Controller {
 		this.betType = "";
 		this.isWin = false;
 		this.required_dice = [0, 0, 0, 0, 0] //dice we are required to have for a win. 
+		this.model = RewardsModel.getInstance();
 	}
 
 	public roll_dice() {
@@ -104,7 +107,7 @@ class Minigame1Controller {
 			this.required_dice[i] = required_dice[i];
 		}
 		this.betOdds = this.betOddsChoose();
-		//add code subtracting bet money from inventory. need to interact with reward system
+		this.model.subtractCash(this.bet);
 	}
 
 	public betOddsChoose(): number {
@@ -119,12 +122,16 @@ class Minigame1Controller {
 			case "bigOdds": {return this.bigOdds;}
 			case "oddOdds": {return this.oddOdds;}
 			case "evenOdds": {return this.evenOdds;}
-	}
+		}
 	return 0;
-}
+	}
+	
+	public returnBetStatus(): boolean {
+		return this.isWin;
+	}
 
 	public winBet() {
-		//add code adding bet + bet*betOdds money to inventory. need to interact with reward system
+		this.model.addCash(this.bet + this.bet*this.betOdds);
 		this.bet = 0;
 		this.betOdds = 0;
 		this.required_dice = [0, 0, 0, 0, 0];
