@@ -1,19 +1,28 @@
 {
   "name": "cse-110-project-team-29",
+  "main": "index.js",
   "type": "module",
-  "dependencies": {
-    "konva": "^10.0.8",
-    "vitest": "^4.0.8"
-  },
   "scripts": {
     "test": "vitest run",
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "dev": "vite"
   },
-  "devDependencies": {
-    "@types/node": "^24.10.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSE110-Coblenz/cse-110-project-team-29.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSE110-Coblenz/cse-110-project-team-29/issues"
+  },
+  "homepage": "https://github.com/CSE110-Coblenz/cse-110-project-team-29#readme",
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "@types/node": "^24.9.2",
+    "konva": "^10.0.8",
+    "prisma": "^6.18.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "vite": "^7.2.2"
+    "vite": "^7.1.12",
+    "vitest": "^4.0.7"
   }
 }
