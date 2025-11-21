@@ -5,6 +5,7 @@ export type Screen =
 	| { type: "tableOfContents" }
 	| { type: "act1" };
 
+
 export abstract class ScreenController {
     abstract getView(): View;
 
