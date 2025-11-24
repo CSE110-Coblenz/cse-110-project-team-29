@@ -1,4 +1,5 @@
 import { ScreenController, type Screen, type ScreenSwitcher } from "./ScreenController.ts";
+import { TitleScreenController } from "./TitleScreenController.ts";
 import { GenericActController } from "./GenericActController.ts";
 import { RewardsController } from "./RewardScreenController.ts";
 import { Act1View } from "../views/Act1View.ts";
@@ -23,6 +24,10 @@ export class AppScreenSwitcher implements ScreenSwitcher {
         this.currentController?.hide();
 
         switch (screen.type) {
+            case "title":
+                this.currentController = new TitleScreenController(this);
+                break;
+
             case "act1":
                 this.currentAct = "act1";
                 this.currentController = new GenericActController(
@@ -33,7 +38,6 @@ export class AppScreenSwitcher implements ScreenSwitcher {
                     screen.resumeIndex ?? 0
                 );
                 break;
-
             
             case "act2":
                 this.currentAct = "act2";
@@ -45,7 +49,6 @@ export class AppScreenSwitcher implements ScreenSwitcher {
                     screen.resumeIndex ?? 0
                 );
                 break;
-            
             
             case "act3":
                 this.currentAct = "act3";
