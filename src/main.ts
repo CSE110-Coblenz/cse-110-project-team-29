@@ -4,7 +4,7 @@ import { STAGE_WIDTH, STAGE_HEIGHT } from "./constants";
 
 function main() {
     const switcher = new AppScreenSwitcher(ActModels.getInstance().getQuestions());
-    switcher.switchToScreen({ type: "act1" });
+    switcher.switchToScreen({ type: "title" });
 }
 
 main();
