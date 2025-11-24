@@ -6,10 +6,21 @@ import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants";
  * TitleScreenView - Renders the title screen
  */
 export class TitleScreenView implements View {
+	private stage: Konva.Stage;
+	private layer: Konva.Layer;
 	private group: Konva.Group;
 
 	constructor(onStartClick: () => void) {
-		this.group = new Konva.Group({ visible: true });
+		// added stage + layer to match set-up from main branch
+		this.stage = new Konva.Stage({
+			container: "konva-container",
+			width: STAGE_WIDTH,
+			height: STAGE_HEIGHT,
+		});
+		this.layer = new Konva.Layer();
+		this.stage.add(this.layer);
+		this.group = new Konva.Group({ visible: false });
+		this.layer.add(this.group);
 
 		// Background
 		Konva.Image.fromURL("act1Background.png", (bg) => {
@@ -70,23 +81,32 @@ export class TitleScreenView implements View {
 		startButtonGroup.add(startText);
 		startButtonGroup.on("click", onStartClick);
 		this.group.add(startButtonGroup);
+
+		this.layer.add(this.group);
+	}
+
+	show(): void {
+		this.group.visible(true);
+    	this.layer.draw();
+	}
+
+	hide(): void {
+		this.group.visible(false);
+    	this.layer.draw();
 	}
 
 	/**
-	 * Show the screen
-	 */
+	 * Old show/hide functions
 	show(): void {
 		this.group.visible(true);
 		this.group.getLayer()?.draw();
 	}
-
-	/**
-	 * Hide the screen
-	 */
+	
 	hide(): void {
 		this.group.visible(false);
 		this.group.getLayer()?.draw();
 	}
+	 */
 
 	getGroup(): Konva.Group {
 		return this.group;
