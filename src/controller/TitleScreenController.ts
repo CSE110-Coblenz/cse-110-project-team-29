@@ -1,5 +1,4 @@
-import type { AppScreenSwitcher } from "./AppScreenSwitcher.ts";
-import { ScreenController } from "./ScreenController";
+import { ScreenController, type ScreenSwitcher } from "./ScreenController";
 import { TitleScreenView } from "../views/TitleScreenView";
 
 /**
@@ -7,9 +6,9 @@ import { TitleScreenView } from "../views/TitleScreenView";
  */
 export class TitleScreenController extends ScreenController {
 	private view: TitleScreenView;
-	private screenSwitcher: AppScreenSwitcher;
+	private screenSwitcher: ScreenSwitcher;
 
-	constructor(screenSwitcher: AppScreenSwitcher) {
+	constructor(screenSwitcher: ScreenSwitcher) {
 		super();
 		this.screenSwitcher = screenSwitcher;
 		this.view = new TitleScreenView(() => this.handleStartClick());
