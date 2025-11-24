@@ -1,7 +1,5 @@
 {
   "name": "cse-110-project-team-29",
-  "version": "1.0.0",
-  "description": "Fresh repository with main branch.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -12,8 +10,6 @@
     "type": "git",
     "url": "git+https://github.com/CSE110-Coblenz/cse-110-project-team-29.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/CSE110-Coblenz/cse-110-project-team-29/issues"
