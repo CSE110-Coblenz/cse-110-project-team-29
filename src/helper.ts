@@ -1,3 +1,5 @@
+import Konva from "konva";
+
 export function randIntBetween(min: number, max: number): number {
     return Math.floor((Math.random() * (max - min + 1)) + min) //gives a number between min and max inclusive.
 }
@@ -13,3 +15,36 @@ export function tripletsEqual(a1: number, a2: number, a3: number, b1: number, b2
     return tripA[0] === tripB[0] && tripA[1] === tripB[1] && tripA[2] === tripB[2];
 }
 
+
+export function createButton(text: string, x: number, y: number, onClick: () => void, layer: Konva.Layer) {
+    const rect = new Konva.Rect({
+        x, y,
+        width: 300,
+        height: 60,
+        fill: "#222",
+        cornerRadius: 12,
+        stroke: "#00ff00",
+        strokeWidth: 3,
+    });
+
+    const label = new Konva.Text({
+        x,
+        y: y + 18,
+        width: 300,
+        text,
+        align: "center",
+        fill: "#00ff00",
+        fontSize: 22,
+        fontFamily: "Poppins, sans-serif",
+    });
+
+    const group = new Konva.Group();
+    group.add(rect);
+    group.add(label);
+
+    group.on("click", onClick);
+
+    layer.add(group);
+
+    return group;
+}

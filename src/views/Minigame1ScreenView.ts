@@ -1,28 +1,29 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
 import { RewardsModel } from "../models/RewardsModel.ts";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts";
+
 
 export class Minigame1View implements View {
     private stage: Konva.Stage;
     private layer: Konva.Layer;
     private background: Konva.Rect;
-    private questionCard: Konva.Rect;
-    private questionText: Konva.Text;
-    private inputLabel: Konva.Text;
-    private input: HTMLInputElement;
     private moneyText: Konva.Text;
+    private model: RewardsModel;
 
     constructor() {
         this.stage = new Konva.Stage({
             container: "konva-container",
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: STAGE_WIDTH,
+            height: STAGE_HEIGHT,
         });
-
+        
+        this.model = RewardsModel.getInstance();
         this.layer = new Konva.Layer();
         this.stage.add(this.layer);
 
         // Background gradient
+        // Taken from Aman's Class
         this.background = new Konva.Rect({
             x: 0,
             y: 0,
@@ -34,11 +35,13 @@ export class Minigame1View implements View {
         });
         this.layer.add(this.background);
 
+        //Money amount
+        //Modified from Aman's Class
         this.moneyText = new Konva.Text({
             x: 0,
             y: 60, // moved down
             width: this.stage.width(),
-            text: `Total Money Earned: $${RewardsModel.getInstance().getCash()}`,
+            text: `Total Money Earned: $${this.model.getCash()}`,
             fontSize: 48, // bigger
             fontFamily: "Poppins, Arial, sans-serif",
             fontStyle: "bold",
@@ -50,50 +53,17 @@ export class Minigame1View implements View {
         });
         this.layer.add(this.moneyText);
 
-        const cardWidth = 800;
-        const cardHeight = 375;
-        const cardX = (this.stage.width() - cardWidth) / 2;
-        const cardY = (this.stage.height() - cardHeight) / 2 - 30;
-
-        this.questionCard = new Konva.Rect({
-            x: cardX,
-            y: cardY,
-            width: cardWidth,
-            height: cardHeight,
-            fillLinearGradientStartPoint: { x: 0, y: 0 },
-            fillLinearGradientEndPoint: { x: 0, y: cardHeight },
-            fillLinearGradientColorStops: [0, "lightgreen", 1, "darkgreen"],
-            cornerRadius: 25,
-            shadowColor: "#000",
-            shadowBlur: 25,
-            shadowOpacity: 0.2,
-            shadowOffset: { x: 0, y: 5 },
-        });
-        this.layer.add(this.questionCard);
-
         
-
-    show() {
-        this.stage.show();
-        this.input.style.display = "block";
-        this.input.focus();
-    }
-
-    hide() {
-        this.stage.hide();
-        this.input.style.display = "none";
-    }
-
-    updateOdds(question: string) {
-        //fill
-    }
-
-    onSubmit(callback: (answer: string) => void) {
-        //fill
-    }
-
-    getGroup(): Konva.Group {
-        return new Konva.Group();
-    }
 }
 }
+
+
+//export interface Minigame1View {
+//    displayDice(d1: number, d2: number, d3: number): void;
+//    displayOdds(oddsObj: { [key: string]: number }): void;
+//    displayResult(isWin: boolean, winnings: number): void;
+//    displayCash(amount: number): void;
+//    showBetSelectionUI(): void;
+//    showRollButton(): void;
+//    showError(msg: string): void;
+//}
