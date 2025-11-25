@@ -77,11 +77,6 @@ export class AppScreenSwitcher implements ScreenSwitcher {
                     this.switchToScreen({ type: "title" });
                 });
             
-                //（可选）Play Again 以后再接，这里先不动
-                // endCtrl.onRequestRetry(() => {
-                //     this.switchToScreen({ type: "act1", resumeIndex: 0 });
-                // });
-            
                 this.currentController = endCtrl;
                 break;
 

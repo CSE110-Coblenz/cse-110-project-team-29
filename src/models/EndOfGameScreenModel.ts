@@ -1,4 +1,4 @@
-import type { EndGameData } from "../types";
+import type { EndGameData } from "../types.ts";
 
 export const mockEndGameData: EndGameData = {
   totalQuestions: 20,
