@@ -5,6 +5,7 @@ import { RewardsController } from "./RewardScreenController.ts";
 import { Act1View } from "../views/Act1View.ts";
 import { Act2View } from "../views/Act2View.ts";
 import { Act3View } from "../views/Act3View.ts";
+import { EndOfGameScreenController } from "./EndOfGameScreenController.ts";
 
 export class AppScreenSwitcher implements ScreenSwitcher {
     private currentController: ScreenController | null = null;
@@ -54,7 +55,7 @@ export class AppScreenSwitcher implements ScreenSwitcher {
                 this.currentAct = "act3";
                 this.currentController = new GenericActController(
                     this,
-                    () => console.log("Game complete"),
+                    () => this.switchToScreen({ type: "end" }),
                     this.questions.act3,
                     Act3View,
                     screen.resumeIndex ?? 0
@@ -65,6 +66,23 @@ export class AppScreenSwitcher implements ScreenSwitcher {
                 this.currentController = new RewardsController(
                 screen.isCorrect,
                 () => this.switchToScreen({ type: screen.returnTo , resumeIndex: screen.nextIndex}));
+                break;
+
+            case "end":
+                const endCtrl     = new EndOfGameScreenController(
+                    window.innerWidth,
+                    window.innerHeight
+                );
+                endCtrl.onRequestExit(() => {
+                    this.switchToScreen({ type: "title" });
+                });
+            
+                //（可选）Play Again 以后再接，这里先不动
+                // endCtrl.onRequestRetry(() => {
+                //     this.switchToScreen({ type: "act1", resumeIndex: 0 });
+                // });
+            
+                this.currentController = endCtrl;
                 break;
 
         }

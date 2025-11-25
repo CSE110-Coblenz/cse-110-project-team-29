@@ -1,5 +1,6 @@
 import type { AppScreenSwitcher } from "./AppScreenSwitcher.ts";
 import { ScreenController } from "./ScreenController.ts";
+import { RewardsModel } from "../models/RewardsModel.ts";
 
 export class GenericActController extends ScreenController {
 
@@ -54,6 +55,10 @@ export class GenericActController extends ScreenController {
         const isCorrect = normalize(answer) === normalize(q.answer);
 
         const returnTo = this.screenSwitcher.getCurrentAct();
+
+        if (isCorrect) {
+            RewardsModel.getInstance().addCorrect(returnTo);
+        }
 
         this.screenSwitcher.switchToScreen({
             type: "rewards",
