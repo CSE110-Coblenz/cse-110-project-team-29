@@ -7,7 +7,7 @@ export type Screen =
     | { type: "act2", resumeIndex?: number | undefined}
     | { type: "act3", resumeIndex?: number | undefined}
     | { type: "rewards"; isCorrect: boolean; returnTo: "act1" | "act2" | "act3";  nextIndex?: number }
-
+    | { type: "end" }
 
 export abstract class ScreenController {
     abstract getView(): View;
