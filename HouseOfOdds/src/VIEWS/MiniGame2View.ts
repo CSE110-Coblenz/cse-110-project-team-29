@@ -1,11 +1,25 @@
 import Konva from "konva";
 import { SignInput } from "../COMPONENTS/signInput";
+import type { condition } from "../TYPES/value";
 export class MiniGame2View {
 
     private layer: Konva.Layer;
     private text: Konva.Text;
-    constructor(stage: Konva.Stage, spinCallback: () => void) {
+
+
+
+    // TODO
+    // private getCondition: () => condition;
+    // private spinCallback: (cond: condition, bet: number) => void;
+    constructor(stage: Konva.Stage, getCondition? : () => condition, spinCallback?: (cond: condition, bet: number) => void) {
         
+        // TODO
+        // this.getCondition = getCondition;
+        // this.spinCallback = spinCallback;
+
+
+
+
         this.layer = new Konva.Layer();
 
         const background = new Konva.Rect({
@@ -25,7 +39,7 @@ export class MiniGame2View {
 			]
         });
         this.layer.add(background);
- 
+        
         const circle = new Konva.Circle({
             x: 370,
             y: 300,
@@ -36,8 +50,13 @@ export class MiniGame2View {
         });
         this.layer.add(circle);
 
+
+
+
+
+        // TODO
         // create sign input element
-        const signInput = new SignInput(750, 150, spinCallback, stage);
+        const signInput = new SignInput(650, 150, ??????? , stage);
         this.layer.add(signInput.getSignInput());
 
         this.text = new Konva.Text({
@@ -50,33 +69,17 @@ export class MiniGame2View {
         });
         this.layer.add(this.text);
 
-        // const spinButton = new Konva.Rect({
-        //     x: 370,
-        //     y: 500,
-        //     width: 200,
-        //     height: 100,
-        //     fill: 'green',
-        //     stroke: 'black',
-        //     strokeWidth: 4,
-        // });
-        // spinButton.on('click', () => {
-        //     text.setText(this.model.spin().toString());
-        // });
-        // this.group.add(spinButton);
-        // TODO: fix random seed, deterministic, avoid tricky testing, mocking a probability test (rigged test)
-        // this.layer.add(this.group);
-        // stage.add(this.layer);
     }
 
-    public updateText(value: string): void {
-        this.text.text(value);
-    }
-
-    // Helper method to add to main group
-    // public addGroupToLayer(group: Konva.Group): void {
-    //     this.layer.add(group);
+    // TODO
+    // public handleSubmit(bet: number): void {
+    //     this.spinCallback(this.getCondition(), bet);
     // }
-    
+
+
+
+
+
     public getLayer(): Konva.Layer {
         return this.layer;
     }

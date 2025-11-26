@@ -3,24 +3,28 @@ export class SignInput extends Konva.Group {
     
     private signInput = new Konva.Group();
     // private signText: Konva.Text;
-    private interactFunction: () => void;
+    private interactFunction: (input: string) => number;
 
     //TODO: finish creating UI components
     //TODO: add the roulette funcitonality
     // Game provides a condition,
     // lets make the user enter the proabablity of the condition
-    // and then input how much they want to bet on that condition
-    constructor(x: number, y: number, submitInteraction: () => void, stage: Konva.Stage) {
+    // and then input how much they want to bet  on that condition
+    constructor(x: number, y: number, submitInteraction: (bet: string) => number, stage?: Konva.Stage) {
         super();
 
         // create HTML input box
-        this.enableEditing(stage);
+        if (stage) {
+            this.enableEditing(stage);
+        }
 
         // set interaction
         this.interactFunction = submitInteraction;
         
         // add box shape to group
         this.signInput.add(this.createBox(x, y));
+        
+        this.signInput.add(this.createText(x, y, 'Enter condition text'));
         
     }
 
@@ -37,10 +41,10 @@ export class SignInput extends Konva.Group {
             y: y,
             sceneFunc: function (context, shape) {
                 context.beginPath();
-                context.moveTo(0, 100);
-                context.lineTo(200, 0);
-                context.lineTo(400, 100);
-                context.lineTo(200, 200);
+                context.moveTo(0, 150);
+                context.lineTo(250, 0);
+                context.lineTo(500, 150);
+                context.lineTo(250, 300);
                 context.closePath();
                 context.fillStrokeShape(shape);
                 },
@@ -50,6 +54,18 @@ export class SignInput extends Konva.Group {
         });
         box.add(sign);
         return box;
+    }
+
+    createText(x: number, y: number, text: string): Konva.Text {
+        const textNode = new Konva.Text({
+            x: x + 150,
+            y: y+ 120,
+            text: text,
+            fontSize: 24,
+            fontFamily: 'Calibri',
+            fill: 'white',
+        });
+        return textNode;
     }
 
     // create the HTML input box and functionality
@@ -69,8 +85,8 @@ export class SignInput extends Konva.Group {
         input.placeholder = 'Enter condition text';
         input.value = '';
         input.style.position = 'absolute';
-        input.style.top = stageBox.top + textPosition.y + 270 + 'px';
-        input.style.left = stageBox.left + textPosition.x + 875 + 'px';
+        input.style.top = stageBox.top + textPosition.y + 350 + 'px';
+        input.style.left = stageBox.left + textPosition.x + 825 + 'px';
         input.style.width =  200 + 'px'
         input.style.fontSize = 16 + 'px';
         input.style.border = '2px solid #333';
@@ -82,12 +98,23 @@ export class SignInput extends Konva.Group {
         input.style.color = '#000';
         container.appendChild(input);
 
-        // TODO: change to submit numbers, implement game logic
+
         this.signInput.on('click', () => {
             input.focus();
         });
+
+
+        // TODO: change to submit numbers, implement game logic
         input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') this.interactFunction();
+            if (e.key === 'Enter') this.interactFunction((input.value));
         });
+
+
     }
+    // TODO
+    // public getBet(bet: string): number{
+    //     return parseInt(bet);
+    // }
+
+
 }
