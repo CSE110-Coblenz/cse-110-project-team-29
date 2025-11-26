@@ -2,6 +2,7 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
 import { RewardsModel } from "../models/RewardsModel.ts";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts";
 
 export class Act2View implements View {
     private stage: Konva.Stage;
@@ -16,24 +17,24 @@ export class Act2View implements View {
     constructor() {
         this.stage = new Konva.Stage({
             container: "konva-container",
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: STAGE_WIDTH,
+            height: STAGE_HEIGHT,
         });
 
         this.layer = new Konva.Layer();
         this.stage.add(this.layer);
 
         // Background gradient
-        this.background = new Konva.Rect({
-            x: 0,
-            y: 0,
-            width: this.stage.width(),
-            height: this.stage.height(),
-            fillLinearGradientStartPoint: { x: 0, y: 0 },
-            fillLinearGradientEndPoint: { x: 0, y: this.stage.height() },
-            fillLinearGradientColorStops: [0, "#000000", 1, "#177dd5ff"],
+        Konva.Image.fromURL("act2Background.png", (bg) => {
+            bg.x(0);
+            bg.y(0);
+            bg.width(STAGE_WIDTH);
+            bg.height(STAGE_HEIGHT);
+            
+            this.background = bg;
+            this.layer.add(this.background);
+            this.background.moveToBottom();
         });
-        this.layer.add(this.background);
 
         this.moneyText = new Konva.Text({
             x: 0,
@@ -122,8 +123,6 @@ export class Act2View implements View {
         this.input.onblur = () => (this.input.style.borderColor = "#ccc");
         document.body.appendChild(this.input);
         this.positionInput();
-
-        window.addEventListener("resize", () => this.onResize());
     }
 
     
@@ -146,39 +145,6 @@ export class Act2View implements View {
        this.input.style.top = `${inputY + 70}px`;
        this.input.style.left = `${startX + 100}px`;
        this.input.style.width = `400px`;
-    }
-
-    private onResize() {
-        this.stage.width(window.innerWidth);
-        this.stage.height(window.innerHeight);
-
-        
-        this.background.width(this.stage.width());
-        this.background.height(this.stage.height());
-        this.background.fillLinearGradientEndPoint({ x: 0, y: this.stage.height() });
-
-       
-        this.moneyText.width(this.stage.width());
-
-        
-        const cardWidth = this.questionCard.width();
-        const cardHeight = this.questionCard.height();
-        const cardX = (this.stage.width() - cardWidth) / 2;
-        const cardY = (this.stage.height() - cardHeight) / 2 - 30;
-        this.questionCard.position({ x: cardX, y: cardY });
-
-        this.questionText.x(cardX + 30);
-        this.questionText.y(cardY + (cardHeight - this.questionText.height()) / 2);
-        this.questionText.width(cardWidth - 60);
-
-
-        this.inputLabel.x(cardX);
-        this.inputLabel.y(cardY + cardHeight + 50);
-        this.inputLabel.width(cardWidth);
-
-        this.positionInput();
-
-        this.layer.draw();
     }
 
     show() {

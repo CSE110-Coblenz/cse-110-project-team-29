@@ -2,6 +2,7 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
 import { Group } from "konva/lib/Group";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts"
 
 export class RewardsView implements View {
   private stage: Konva.Stage;
@@ -14,8 +15,8 @@ export class RewardsView implements View {
   constructor(handleContinue: () => void) {
     this.stage = new Konva.Stage({
       container: "konva-container",
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: STAGE_WIDTH,
+      height: STAGE_HEIGHT,
     });
 
     this.layer = new Konva.Layer();
