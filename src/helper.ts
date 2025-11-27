@@ -29,7 +29,7 @@ export function createButton(text: string, x: number, y: number, onClick: () => 
 
     const label = new Konva.Text({
         x,
-        y: y + 18,
+        y: y + 20,
         width: 300,
         text,
         align: "center",
