@@ -7,12 +7,13 @@ import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts";
 export class Act1View implements View {
     private stage: Konva.Stage;
     private layer: Konva.Layer;
-    private background: Konva.Image;
+    private background!: Konva.Image;
     private questionCard: Konva.Rect;
     private questionText: Konva.Text;
     private inputLabel: Konva.Text;
     private input: HTMLInputElement;
     private moneyText: Konva.Text;
+    private container: HTMLElement;
 
     constructor() {
         this.stage = new Konva.Stage({
@@ -21,10 +22,14 @@ export class Act1View implements View {
             height: STAGE_HEIGHT,
         });
 
+        const el = document.getElementById("konva-container");
+        if (!el) throw new Error("Missing konva-container element");
+        this.container = el;
+        this.container.style.position = this.container.style.position || "relative";
+
         this.layer = new Konva.Layer();
         this.stage.add(this.layer);
 
-        // Background gradient
         Konva.Image.fromURL("act1Background.png", (bg) => {
             bg.x(0);
             bg.y(0);
@@ -38,10 +43,10 @@ export class Act1View implements View {
 
         this.moneyText = new Konva.Text({
             x: 0,
-            y: 60, // moved down
-            width: this.stage.width(),
+            y: 60,
+            width: STAGE_WIDTH,
             text: `Total Money Earned: $${RewardsModel.getInstance().getCash()}`,
-            fontSize: 48, // bigger
+            fontSize: 48,
             fontFamily: "Poppins, Arial, sans-serif",
             fontStyle: "bold",
             fill: "#00ff00",
@@ -54,8 +59,8 @@ export class Act1View implements View {
 
         const cardWidth = 800;
         const cardHeight = 375;
-        const cardX = (this.stage.width() - cardWidth) / 2;
-        const cardY = (this.stage.height() - cardHeight) / 2 - 30;
+        const cardX = (STAGE_WIDTH - cardWidth) / 2;
+        const cardY = (STAGE_HEIGHT - cardHeight) / 2 - 30;
 
         this.questionCard = new Konva.Rect({
             x: cardX,
@@ -78,7 +83,6 @@ export class Act1View implements View {
             x: cardX + 30,
             y: cardY + 30,
             width: cardWidth - 60,
-            height: cardHeight - 60,
             fontSize: 28,
             fontFamily: "Georgia, Poppins, serif",
             fontStyle: "italic",
@@ -94,11 +98,11 @@ export class Act1View implements View {
             x: 0, 
             y: 0,
             width: 70, 
-            text: "Enter  :",
+            text: "Enter :",
             fontSize: 22,
             fontFamily: "Georgia, Poppins, serif",
             fontStyle: "bold",
-            fill: "#black",
+            fill: "#000",
             align: "left", 
         });
 
@@ -118,33 +122,38 @@ export class Act1View implements View {
             outline: "none",
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
             transition: "all 0.2s",
+            zIndex: "1000" // to ensure the input is above the canvas
         });
         this.input.onfocus = () => (this.input.style.borderColor = "#ff6a88");
         this.input.onblur = () => (this.input.style.borderColor = "#ccc");
-        document.body.appendChild(this.input);
+        
+        this.container.appendChild(this.input);
         this.positionInput();
     }
 
     
     private positionInput() {
-       const cardX = this.questionCard.x();
-       const cardY = this.questionCard.y();
-       const cardWidth = this.questionCard.width();
+        const cardX = this.questionCard.x();
+        const cardY = this.questionCard.y();
+        const cardWidth = this.questionCard.width();
+        const cardHeight = this.questionCard.height();
 
-    
-       const totalWidth = 400 + 70; 
-       const startX = cardX + (cardWidth - totalWidth) / 2;
-       const inputY = cardY + this.questionCard.height() + 40;
+        // desired input width and label width
+        const inputWidth = 400;
+        const labelWidth = 100;
+        const totalWidth = inputWidth + labelWidth + 20;
 
-    
-       this.inputLabel.x(startX - 5);
-       this.inputLabel.y(inputY + 85); 
-       this.inputLabel.width(100);
+        const startX = cardX + (cardWidth - totalWidth) / 2;
+        const inputY = cardY + cardHeight + 40; // below the card
 
-  
-       this.input.style.top = `${inputY + 70}px`;
-       this.input.style.left = `${startX + 100}px`;
-       this.input.style.width = `400px`;
+        // position Konva label so it moves with the stage
+        this.inputLabel.x(startX);
+        this.inputLabel.y(inputY + 14);
+        this.inputLabel.width(labelWidth);
+
+        this.input.style.left = `${startX + labelWidth + 10}px`;
+        this.input.style.top = `${inputY}px`;
+        this.input.style.width = `${inputWidth}px`;
     }
 
     show() {

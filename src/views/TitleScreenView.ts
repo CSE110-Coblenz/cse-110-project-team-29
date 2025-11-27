@@ -38,7 +38,7 @@ export class TitleScreenView implements View {
 			x: STAGE_WIDTH / 2,
 			y: STAGE_HEIGHT / 3,
 			text: "WELCOME TO HOUSE OF ODDS",
-			fontSize: 48,
+			fontSize: 60,
 			fontFamily: "Jomolhari",
 			fill: "white",
 			stroke: "white",
