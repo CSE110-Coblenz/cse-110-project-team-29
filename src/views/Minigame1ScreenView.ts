@@ -11,12 +11,13 @@ export class Minigame1View implements View {
     private background: Konva.Rect;
     private moneyText: Konva.Text;
     private model: RewardsModel;
+    private group: Konva.Group;
 
     private diceImages: HTMLImageElement[] = [];
     private diceSprites: Konva.Image[] = [];
 
-    private rollButton: Konva.Group | null = null;
-    private betInput: HTMLInputElement | null = null;
+    private rollButton: Konva.Group;
+    private betInput: HTMLInputElement;
 
     // Odds buttons (one for each type)
     private oddsButtons: Record<string, Konva.Group> = {};
@@ -34,16 +35,20 @@ export class Minigame1View implements View {
         this.layer = new Konva.Layer();
         this.stage.add(this.layer);
 
-        this.background = new Konva.Rect({
-            x: 0,
-            y: 0,
-            width: this.stage.width(),
-            height: this.stage.height(),
-            fillLinearGradientStartPoint: { x: 0, y: 0 },
-            fillLinearGradientEndPoint: { x: 0, y: this.stage.height() },
-            fillLinearGradientColorStops: [0, "#000000", 1, "#ff0000"],
+        this.group = new Konva.Group();
+        this.layer.add(this.group);
+
+        //Taken from Aman's Class
+        Konva.Image.fromURL("act1Background.png", (bg) => {
+            bg.x(0);
+            bg.y(0);
+            bg.width(STAGE_WIDTH);
+            bg.height(STAGE_HEIGHT);
+
+            this.background = bg;
+            this.layer.add(this.background);
+            this.background.moveToBottom();
         });
-        this.layer.add(this.background);
 
         for (let i = 1; i <= 6; i++) {
             const img = new Image();
@@ -79,28 +84,19 @@ export class Minigame1View implements View {
         });
         this.layer.add(this.moneyText);
 
-        // ---------- Create Buttons ----------
         this.initializeButtons();
-
         this.layer.draw();
     }
 
     private initializeButtons() {
-
         let y = 350;
         const x = 40;
 
-        const bets = [
-            "threeOfAKindIndividualOdds",
-            "threeOfAKindGroupOdds",
-            "pairAndSingleIndividualOdds",
-            "threeSinglesIndividualOdds",
-            "threeOutOfFourOdds",
-            "totals4Through17Odds",
-            "smallOdds",
-            "bigOdds",
-            "oddOdds",
-            "evenOdds"
+        let bets = ["Three of a Kind", "All Three of a Kind", "A Pair and a Single", "Three Singles", "Three out of Four",
+            "Total Sum of Dice (4-17)", "Small Odds",
+            "Big Odds",
+            "Odd Odds",
+            "Even Odds"
         ];
 
         bets.forEach((name) => {
@@ -109,14 +105,8 @@ export class Minigame1View implements View {
             y += 70;
         });
 
-        // Roll Button
         this.rollButton = createButton(
-            "ROLL DICE",
-            STAGE_WIDTH - 340,
-            520,
-            () => this.onRollClick(),
-            this.layer
-        );
+            "ROLL DICE", STAGE_WIDTH - 340, 520, () => this.onRollClick(), this.layer);
     }
 
 
@@ -152,7 +142,7 @@ export class Minigame1View implements View {
     }
 
     getGroup(): Konva.Group {
-        return this.layer;
+        return this.group;
     }
 
     show(): void {
