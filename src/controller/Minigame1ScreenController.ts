@@ -1,6 +1,6 @@
-import { plusOrMinusInt } from "../helper";
-import { randIntBetween } from "../helper";
-import { tripletsEqual } from "../helper";
+import { plusOrMinusInt } from "../helper.ts";
+import { randIntBetween } from "../helper.ts";
+import { tripletsEqual } from "../helper.ts";
 import { RewardsModel } from "../models/RewardsModel.ts";
 	
 
@@ -42,7 +42,7 @@ export class Minigame1Controller {
 		this.evenOdds = 1;
 		this.bet = 0;
 		this.betOdds = 0;
-		this.betType = "";
+		this.betType = "";	
 		this.isWin = false;
 		this.required_dice = [0, 0, 0, 0, 0] //dice we are required to have for a win. 
 		this.model = RewardsModel.getInstance();
