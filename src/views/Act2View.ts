@@ -2,38 +2,44 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
 import { RewardsModel } from "../models/RewardsModel.ts";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts";
 
 export class Act2View implements View {
     private stage: Konva.Stage;
     private layer: Konva.Layer;
-    private background: Konva.Rect;
+    private background!: Konva.Rect;
     private questionCard: Konva.Rect;
     private questionText: Konva.Text;
     private inputLabel: Konva.Text;
     private input: HTMLInputElement;
     private moneyText: Konva.Text;
+    private container: HTMLElement;
 
     constructor() {
         this.stage = new Konva.Stage({
             container: "konva-container",
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: STAGE_WIDTH,
+            height: STAGE_HEIGHT,
         });
+
+        const el = document.getElementById("konva-container");
+        if (!el) throw new Error("Missing konva-container element");
+        this.container = el;
+        this.container.style.position = this.container.style.position || "relative";
 
         this.layer = new Konva.Layer();
         this.stage.add(this.layer);
 
-        // Background gradient
-        this.background = new Konva.Rect({
-            x: 0,
-            y: 0,
-            width: this.stage.width(),
-            height: this.stage.height(),
-            fillLinearGradientStartPoint: { x: 0, y: 0 },
-            fillLinearGradientEndPoint: { x: 0, y: this.stage.height() },
-            fillLinearGradientColorStops: [0, "#000000", 1, "#177dd5ff"],
+        Konva.Image.fromURL("act2Background.png", (bg) => {
+            bg.x(0);
+            bg.y(0);
+            bg.width(STAGE_WIDTH);
+            bg.height(STAGE_HEIGHT);
+            
+            this.background = bg;
+            this.layer.add(this.background);
+            this.background.moveToBottom();
         });
-        this.layer.add(this.background);
 
         this.moneyText = new Konva.Text({
             x: 0,
@@ -77,7 +83,6 @@ export class Act2View implements View {
             x: cardX + 30,
             y: cardY + 30,
             width: cardWidth - 60,
-            height: cardHeight - 60,
             fontSize: 28,
             fontFamily: "Georgia, Poppins, serif",
             fontStyle: "italic",
@@ -93,11 +98,11 @@ export class Act2View implements View {
             x: 0, 
             y: 0,
             width: 70, 
-            text: "Enter  :",
+            text: "Enter :",
             fontSize: 22,
             fontFamily: "Georgia, Poppins, serif",
             fontStyle: "bold",
-            fill: "#black",
+            fill: "#000",
             align: "left", 
         });
 
@@ -117,68 +122,38 @@ export class Act2View implements View {
             outline: "none",
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
             transition: "all 0.2s",
+            zIndex: "1000" // to ensure the input is above the canvas
         });
         this.input.onfocus = () => (this.input.style.borderColor = "#ff6a88");
         this.input.onblur = () => (this.input.style.borderColor = "#ccc");
-        document.body.appendChild(this.input);
-        this.positionInput();
 
-        window.addEventListener("resize", () => this.onResize());
+        this.container.appendChild(this.input);
+        this.positionInput();
     }
 
     
     private positionInput() {
-       const cardX = this.questionCard.x();
-       const cardY = this.questionCard.y();
-       const cardWidth = this.questionCard.width();
-
-    
-       const totalWidth = 400 + 70; 
-       const startX = cardX + (cardWidth - totalWidth) / 2;
-       const inputY = cardY + this.questionCard.height() + 40;
-
-    
-       this.inputLabel.x(startX - 5);
-       this.inputLabel.y(inputY + 85); 
-       this.inputLabel.width(100);
-
-  
-       this.input.style.top = `${inputY + 70}px`;
-       this.input.style.left = `${startX + 100}px`;
-       this.input.style.width = `400px`;
-    }
-
-    private onResize() {
-        this.stage.width(window.innerWidth);
-        this.stage.height(window.innerHeight);
-
-        
-        this.background.width(this.stage.width());
-        this.background.height(this.stage.height());
-        this.background.fillLinearGradientEndPoint({ x: 0, y: this.stage.height() });
-
-       
-        this.moneyText.width(this.stage.width());
-
-        
+        const cardX = this.questionCard.x();
+        const cardY = this.questionCard.y();
         const cardWidth = this.questionCard.width();
         const cardHeight = this.questionCard.height();
-        const cardX = (this.stage.width() - cardWidth) / 2;
-        const cardY = (this.stage.height() - cardHeight) / 2 - 30;
-        this.questionCard.position({ x: cardX, y: cardY });
 
-        this.questionText.x(cardX + 30);
-        this.questionText.y(cardY + (cardHeight - this.questionText.height()) / 2);
-        this.questionText.width(cardWidth - 60);
+        // desired input width and label width
+        const inputWidth = 400;
+        const labelWidth = 100;
+        const totalWidth = inputWidth + labelWidth + 20;
 
+        const startX = cardX + (cardWidth - totalWidth) / 2;
+        const inputY = cardY + cardHeight + 40;
 
-        this.inputLabel.x(cardX);
-        this.inputLabel.y(cardY + cardHeight + 50);
-        this.inputLabel.width(cardWidth);
+        // position Konva label so it moves with the stage
+        this.inputLabel.x(startX);
+        this.inputLabel.y(inputY + 14);
+        this.inputLabel.width(labelWidth);
 
-        this.positionInput();
-
-        this.layer.draw();
+        this.input.style.left = `${startX + labelWidth + 10}px`;
+        this.input.style.top = `${inputY}px`;
+        this.input.style.width = `${inputWidth}px`;
     }
 
     show() {

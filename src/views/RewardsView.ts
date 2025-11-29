@@ -2,6 +2,7 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
 import { Group } from "konva/lib/Group";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts"
 
 export class RewardsView implements View {
   private stage: Konva.Stage;
@@ -14,8 +15,8 @@ export class RewardsView implements View {
   constructor(handleContinue: () => void) {
     this.stage = new Konva.Stage({
       container: "konva-container",
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: STAGE_WIDTH,
+      height: STAGE_HEIGHT,
     });
 
     this.layer = new Konva.Layer();
@@ -40,7 +41,7 @@ export class RewardsView implements View {
 
     // Message text (correct/incorrect)
     this.messageText = new Konva.Text({
-      x: this.stage.width() / 4 - 75,
+      x: STAGE_WIDTH / 2,
       y: 150,
       text: "",
       fontSize: 48,
@@ -50,7 +51,7 @@ export class RewardsView implements View {
       shadowBlur: 10,
       align: "center",
     });
-    this.messageText.offsetX(this.messageText.width() / 2);
+    this.messageText.offsetX(0);
     this.group.add(this.messageText);
 
     // Continue button
@@ -106,7 +107,8 @@ export class RewardsView implements View {
         ? "🎉 Correct! You Earned Some Money!"
         : "❌ Incorrect. Better Luck Next Time!"
     );
-
+    this.messageText.offsetX(this.messageText.width() / 2);
+    
     this.group.visible(true);
     this.layer.draw();
 

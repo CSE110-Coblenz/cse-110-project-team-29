@@ -6,6 +6,7 @@ import { Act1View } from "../views/Act1View.ts";
 import { Act2View } from "../views/Act2View.ts";
 import { Act3View } from "../views/Act3View.ts";
 import { EndOfGameScreenController } from "./EndOfGameScreenController.ts";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts";
 
 export class AppScreenSwitcher implements ScreenSwitcher {
     private currentController: ScreenController | null = null;
@@ -70,8 +71,8 @@ export class AppScreenSwitcher implements ScreenSwitcher {
 
             case "end":
                 const endCtrl     = new EndOfGameScreenController(
-                    window.innerWidth,
-                    window.innerHeight
+                    STAGE_WIDTH,
+                    STAGE_HEIGHT
                 );
                 endCtrl.onRequestExit(() => {
                     this.switchToScreen({ type: "title" });
