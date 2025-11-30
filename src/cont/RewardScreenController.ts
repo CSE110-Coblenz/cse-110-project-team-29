@@ -1,7 +1,7 @@
 // RewardsController.ts
-import { ScreenController } from "../controller/ScreenController.ts";
+import { ScreenController } from "../cont/ScreenController.ts";
 import { RewardsView } from "../view/RewardsView.ts";
-import { RewardsModel } from "../models/RewardsModel.ts";
+import { RewardsModel } from "../mod/RewardsModel.ts";
 
 export class RewardsController extends ScreenController {
 
