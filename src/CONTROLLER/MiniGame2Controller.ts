@@ -3,7 +3,7 @@ import { MiniGame2Model } from "../models/MiniGame2Model";
 import { MiniGame2View } from "../views/MiniGame2View";
 import { ScreenController } from "./ScreenController";
 import { RewardsModel } from "../models/RewardsModel";
-import type { result} from "../types/value";
+import type { result } from "../types/value";
 export class MiniGame2Controller extends ScreenController {
     private model: MiniGame2Model;
     private view: MiniGame2View;
@@ -19,10 +19,10 @@ export class MiniGame2Controller extends ScreenController {
         this.view.getInputBox().updateConditionText(cond);
 
         // add the view's layer to the stage
-        stage.add(this.view.getLayer());
+        // stage.add(this.view.getLayer());
 
 
-        this.show(); // DELETE THIS WHEN DONE
+        // this.show(); // DELETE THIS WHEN DONE
 
 
         this.view.bindSubmit( (bet: number) => {

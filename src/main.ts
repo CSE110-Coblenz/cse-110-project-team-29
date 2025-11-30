@@ -17,6 +17,10 @@ class App {
 
 		// import CONTROLLER, holds both MODEL and VIEW
 		this.miniGame2Controller = new MiniGame2Controller(this.stage);
+
+		this.stage.add(this.miniGame2Controller.getView().getLayer());
+
+		this.miniGame2Controller.show();
 		
 		// this.layer = new Konva.Layer();	
 
