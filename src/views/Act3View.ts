@@ -2,6 +2,7 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
 import { RewardsModel } from "../models/RewardsModel.ts";
+import { STAGE_HEIGHT, STAGE_WIDTH } from "../constants.ts";
 
 export class Act3View implements View {
     private stage: Konva.Stage;
@@ -12,6 +13,9 @@ export class Act3View implements View {
     private inputLabel: Konva.Text;
     private input: HTMLInputElement;
     private moneyText: Konva.Text;
+    private tutorialImg: string[] = [];
+    private tutorialIdx: number = 0;
+    private tutorialImageNode: Konva.Image | null = null;
 
     constructor() {
         this.stage = new Konva.Stage({
@@ -180,6 +184,57 @@ export class Act3View implements View {
 
         this.layer.draw();
     }
+
+    public showTutorialImage(url: string){
+            const img = new Image();
+            img.src = url;
+    
+            img.onload = () => {
+                if (this.tutorialImageNode){
+                    this.tutorialImageNode.destroy();
+                }
+    
+                this.tutorialImageNode = new Konva.Image({
+                    image: img,
+                    x: STAGE_WIDTH / 2 - img.width / 2 + 250,
+                    y: STAGE_HEIGHT / 2 - img.height / 2,
+                });
+    
+                this.layer.add(this.tutorialImageNode);
+                this.layer.draw();
+            }
+        }
+    
+        startTutorial(images: string[], onFinished:() => void){
+            this.tutorialImg = images;
+            this.tutorialIdx = 0;
+    
+            this.showTutorialImage(images[0]!);
+    
+            //Click to Progress
+            this.stage.off("click.tutorial");
+            this.stage.on("click.tutorial", () =>{
+                this.tutorialIdx++;
+               
+                if (this.tutorialIdx >= this.tutorialImg.length){
+                    //End Tutorial
+                    if (this.tutorialImageNode) {
+                        this.tutorialImageNode.destroy();
+                        this.tutorialImageNode = null;
+                    }
+    
+                    this.stage.off("click.tutorial");
+    
+                    this.layer.draw();
+                    onFinished();
+                    return;
+                    
+                }
+    
+                this.showTutorialImage(this.tutorialImg[this.tutorialIdx]!);
+    
+            });
+        }
 
     show() {
         this.stage.show();

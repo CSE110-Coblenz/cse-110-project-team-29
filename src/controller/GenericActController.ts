@@ -27,7 +27,19 @@ export class GenericActController extends ScreenController {
     }
 
     async init() {
-        this.showQuestion();
+        //Only Shows the Tutorial at question 1
+        if (this.currentIndex === 0 && this.view.startTutorial) {
+            const tutorialImg = this.getTutorialImagesForAct();
+
+            if(tutorialImg && tutorialImg.length > 0){
+                this.view.startTutorial(tutorialImg, () => {
+                    this.showQuestion();
+                });
+                return
+            }
+        
+        }   
+            this.showQuestion();
     }
 
     getView() {
@@ -68,4 +80,29 @@ export class GenericActController extends ScreenController {
         });
 
     }
+
+    private getTutorialImagesForAct(): string[] {
+    const act = this.screenSwitcher.getCurrentAct();
+
+    switch (act) {
+        case "act1":
+            return [
+                "./Act1-1.png",
+                "./Act1-2.png"
+            ];
+        case "act2":
+            return [
+                "./Act2-1.png",
+                "./Act2-2.png",
+                "./Act2-3.png"
+            ];
+        case "act3":
+            return [
+                "./Act3-1.png",
+                "./Act3-2.png"
+            ];
+        default:
+            return [];
+    }
+}
 }
