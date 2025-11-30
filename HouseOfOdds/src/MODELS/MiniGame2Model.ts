@@ -1,4 +1,4 @@
-import type { value, result, condition } from '../TYPES/value';
+import type { value, result} from '../TYPES/value';
 export class MiniGame2Model {
     
     private probabilityList: number[] = [
@@ -9,18 +9,17 @@ export class MiniGame2Model {
     ];
 
     private colorList: ('Red' | 'Black' | 'Green')[] = ['Red', 'Black', 'Green'];
-    private numConditionsList: ('Even' | 'Odd' | 'Greater than 19' | 'Less than 19')[] = [
-        'Even', 'Odd', 'Greater than 19', 'Less than 19'
+    private conditionsList: string[] = [
+        'Even', 'Odd', 'Greater than 19', 'Less than 19', 'Red', 'Black', 'Green'
     ];
 
 
 
     // TODO
     // get a random number condition
-    public getCondition(): condition {
-        const numberCondition = this.numConditionsList[Math.floor(Math.random() * this.numConditionsList.length)];
-        const colorCondition = this.colorList[Math.floor(Math.random() * this.colorList.length)];
-        return { number: numberCondition, color: colorCondition };
+    public getCondition(): string {
+        return this.conditionsList[Math.floor(Math.random() * this.conditionsList.length)];
+         
     }
 
     // threeish conditions
@@ -52,24 +51,27 @@ export class MiniGame2Model {
 
 
 
-    
+
     // spins the roulette and determines the outcome
-    public spin(condition: condition, bet: number): result {
+    public spin(condition: string, bet: number): result {
         const slot = this.calculateValue();
         return this.determineOutcome(condition, slot, bet);
     }
 
-    // randomly generates a slot value
+    // TODO: tweak logic 
+    //randomly generates a slot value
     public calculateValue(): value {
         const probability = Math.ceil(Math.random() * this.probabilityList.length);
-        console.log(`Probability: ${probability}`);
         if (probability <= 18){
+            console.log(`Probability: ${probability} Color: ${this.colorList[0]}`);
             return {number: probability, color: this.colorList[0]};
         }
         else if (probability <= 36 && probability > 18) {
+            console.log(`Probability: ${probability} Color: ${this.colorList[1]}`);
             return {number: probability, color: this.colorList[1]}
         }
         else if (probability > 36) {
+            console.log(`Probability: ${probability} Color: ${this.colorList[2]}`);
             return {number: probability, color: this.colorList[2]}
         }
     
@@ -78,26 +80,24 @@ export class MiniGame2Model {
     }
 
     // checks which num condition was given and if it was met
-    public checkNumCondition(condition: string, slot: value): boolean {
+    public checkCondition(condition: string, slot: value): boolean {
         if (condition == 'Even') {
+            console.log("Even ", slot.number);
             return slot.number % 2 == 0;
         }
         else if (condition == 'Odd') {
+            console.log("Odd ", slot.number);
             return slot.number % 2 != 0;
         }
         else if (condition == 'Greater than 19') {
+            console.log("Greater than 19 ", slot.number);
             return slot.number > 19;
         }
         else if (condition == 'Less than 19') {
+            console.log("Less than 19 ", slot.number);
             return slot.number < 19;
         }
-
-        return false;
-    }
-
-    // checks which color condition was given and if it was met
-    public checkColorCondition(condition: string, slot: value): boolean {
-        if (condition == 'Red') {
+        else if (condition == 'Red') {
             return slot.color == 'Red';
         }
         else if (condition == 'Black') {
@@ -110,14 +110,13 @@ export class MiniGame2Model {
     }
 
     // determines win or loss based on conditions and slot outcome
-    public determineOutcome(condition: condition, slot: value, bet: number): result {
+    public determineOutcome(condition: string, slot: value, bet: number): result {
 
         // checks number condition
-        const numOutcome = this.checkNumCondition(condition.number, slot);
-        // checks color condition
-        const colorOutcome = this.checkColorCondition(condition.color, slot);
-        if (numOutcome && colorOutcome) {
-            return {payout: bet, won: true};
+        const outcome = this.checkCondition(condition, slot);
+        if (outcome) {
+            console.log("Win!");
+            return {payout: 2 * bet, won: true};
         }
         return {payout: 0, won: false};
     }

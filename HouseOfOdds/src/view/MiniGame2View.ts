@@ -1,23 +1,19 @@
 import Konva from "konva";
 import { SignInput } from "../components/signInput";
-import { RewardPop } from "../components/RewardPop";
-import { ExitButton } from "../components/exitButton";
-import { RewardsModel } from "../models/RewardsModel";
-import type { result } from "../TYPES/value";
-import type { View } from "./View";
-export class MiniGame2View implements View{
+export class MiniGame2View {
 
     private layer: Konva.Layer;
     private text: Konva.Text;
     private inputBox: SignInput;
     private moneyText: Konva.Text;
-    private rewardPop: RewardPop;
-    private exitButton: ExitButton;
+
+
 
     // TODO
+    // private getCondition: () => condition;
+    // private spinCallback: (cond: condition, bet: number) => void;
     constructor(stage: Konva.Stage) {
     
-
         this.layer = new Konva.Layer();
 
         const background = new Konva.Rect({
@@ -38,14 +34,9 @@ export class MiniGame2View implements View{
         });
         this.layer.add(background);
 
-
-        this.exitButton = new ExitButton(1175, 20);
-        this.layer.add(this.exitButton.getGroup());
-
-
         const circle = new Konva.Circle({
-            x: 340,
-            y: 370,
+            x: 370,
+            y: 300,
             radius: 250,
             fill: 'red',
             stroke: 'black',
@@ -53,10 +44,9 @@ export class MiniGame2View implements View{
         });
         this.layer.add(circle);
 
-
         this.moneyText = new Konva.Text({
-            x: -350,
-            y: 20, // moved down
+            x: 0,
+            y: 60, // moved down
             width: stage.width(),
             text: `Total Money Earned: $${RewardsModel.getInstance().getCash()}`,
             fontSize: 48, // bigger
@@ -70,7 +60,6 @@ export class MiniGame2View implements View{
         });
         this.layer.add(this.moneyText);
 
-
         this.text = new Konva.Text({
             x: 370,
             y: 300,
@@ -82,43 +71,24 @@ export class MiniGame2View implements View{
         this.layer.add(this.text);
 
 
+
+        // TODO
+        // create sign input element
         this.inputBox = new SignInput(675, 150);
+        document.body.appendChild(this.inputBox.getInputBox());
         this.layer.add(this.inputBox.getSignInput());
 
 
-        this.rewardPop = new RewardPop(180, 50, this.closeReward.bind(this));
-        this.layer.add(this.rewardPop.getGroup());
 
-        
     }
 
     // passed CONTROLLER function to VIEW input submit event handler
     public bindSubmit(handler: (bet: number) => void) {
-        //after some time to "spin" and then pop
         this.inputBox.onSubmit(handler);
-    }
-
-    show(): void {
-        this.layer.show();       
-    }
-
-    hide(): void {
-        this.layer.hide();    
     }
 
     public getInputBox(): SignInput {
         return this.inputBox;
-    }
-
-    public popReward(result: result): void {
-        this.rewardPop.showResult(result);
-        this.inputBox.hideInputBox();
-        this.rewardPop.getGroup().show();
-    }
-
-    public closeReward(): void {
-        this.rewardPop.getGroup().hide();
-        this.inputBox.showInputBox();
     }
 
     public updateText(newText: string): void {
@@ -127,9 +97,5 @@ export class MiniGame2View implements View{
 
     public getLayer(): Konva.Layer {
         return this.layer;
-    }
-
-    public getGroup(): Konva.Group {
-        return new Konva.Group();
     }
 }

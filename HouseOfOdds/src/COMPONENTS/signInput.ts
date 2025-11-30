@@ -2,38 +2,56 @@ import Konva from "konva";
 export class SignInput extends Konva.Group {
     
     private signInput = new Konva.Group();
-    // private signText: Konva.Text;
-    private interactFunction: (input: string) => number;
+    private inputBox: HTMLInputElement;
+    private conditionText: Konva.Text;
+    private errorText: Konva.Text;
 
-    //TODO: finish creating UI components
-    //TODO: add the roulette funcitonality
     // Game provides a condition,
     // lets make the user enter the proabablity of the condition
     // and then input how much they want to bet  on that condition
-    constructor(x: number, y: number, submitInteraction: (bet: string) => number, stage?: Konva.Stage) {
+    constructor(x: number, y: number) {
         super();
-
+            
         // create HTML input box
-        if (stage) {
-            this.enableEditing(stage);
-        }
-
-        // set interaction
-        this.interactFunction = submitInteraction;
+        this.inputBox = document.createElement('input');
+        this.inputBox.type = 'text';
+        this.inputBox.placeholder = 'Enter bet amount';
+        this.inputBox.value = '';
+        //styling
+        const textPosition = this.signInput.getAbsolutePosition();
+        this.inputBox.style.position = 'absolute';
+        this.inputBox.style.top =  textPosition.y + 360 + 'px';
+        this.inputBox.style.left = textPosition.x + 917 + 'px';
+        this.inputBox.style.width =  200 + 'px'
+        this.inputBox.style.fontSize = 16 + 'px';
+        this.inputBox.style.border = '2px solid #333';
+        this.inputBox.style.borderRadius = '4px';
+        this.inputBox.style.padding = '4px';
+        this.inputBox.style.textAlign = 'center';
+        this.inputBox.style.background = '#fff';
+        this.inputBox.style.color = '#000';
         
-        // add box shape to group
+        // konva group elements
         this.signInput.add(this.createBox(x, y));
-        
-        this.signInput.add(this.createText(x, y, 'Enter condition text'));
-        
+        this.conditionText = this.createText(x, y, 24, 'white');
+        this.errorText = this.createText(x + 18, y - 160, 40, 'red');
+        this.signInput.add(this.conditionText);
+        this.signInput.add(this.errorText);
+        this.showInputBox();
     }
 
-    // Helper method to get the sign input box
     getSignInput(): Konva.Group {
         return this.signInput;
     }
 
-    // create the look/shape of the box
+    getInputBox(): HTMLInputElement{
+        return this.inputBox;
+    }
+
+    clearInputBox(): void {
+        this.inputBox.value = '';
+    }
+    
     createBox(x: number, y: number): Konva.Group {
         const box = new Konva.Group();
         const sign = new Konva.Shape({
@@ -42,79 +60,86 @@ export class SignInput extends Konva.Group {
             sceneFunc: function (context, shape) {
                 context.beginPath();
                 context.moveTo(0, 150);
-                context.lineTo(250, 0);
-                context.lineTo(500, 150);
-                context.lineTo(250, 300);
+                context.lineTo(275, 0);
+                context.lineTo(550, 150);
+                context.lineTo(275, 300);
                 context.closePath();
                 context.fillStrokeShape(shape);
                 },
                 fill: '#e02424',
-                stroke: 'black',
-                strokeWidth: 4
+                stroke: '#ffae00ff',
+                strokeWidth: 14,
+                
         });
+        const rec = new Konva.Rect({
+            x: x + 265,
+            y: y + 250,
+            width: 20,
+            height: 400,
+            fill: '#d7d7d7ff',
+            stroke: 'black',
+            strokeWidth: 4
+        });
+        box.add(rec);
         box.add(sign);
         return box;
     }
 
-    createText(x: number, y: number, text: string): Konva.Text {
-        const textNode = new Konva.Text({
-            x: x + 150,
-            y: y+ 120,
-            text: text,
-            fontSize: 24,
+    createText(x: number, y: number, fontSize: number, color: string): Konva.Text {
+        return new Konva.Text({
+            x: x + 168,
+            y: y + 90,
+            text: '',
+            fontSize: fontSize,
             fontFamily: 'Calibri',
-            fill: 'white',
+            align: 'center',
+            verticalAlign: 'middle',
+            fill: color,
+            opacity: 1,
         });
-        return textNode;
+        
     }
 
-    // create the HTML input box and functionality
-    enableEditing(stage: Konva.Stage): void {
+    showInputBox(): void {
+        document.body.appendChild(this.inputBox);
+    }
+    hideInputBox(): void {
+        document.body.removeChild(this.inputBox);
+    }
 
-        // this is the text for the actual Konva group obj
-        // const textNode = this.signText;
+    updateConditionText(cond: string): void {
+        this.conditionText.opacity(0);
+        this.conditionText.text(`WINNING CONDITION \nThe slot will be: \n>> ${cond} <<`);
+        this.conditionText.to({opacity: 1, duration: 0.2});
+    }
 
-        const container = stage.container();
+    updateErrorText(error: string): void {
+        this.errorText.opacity(0);
+        this.errorText.text(error);
+        this.errorText.to({opacity: 1, duration: 0.2});
+    }
 
-        const textPosition = this.signInput.getAbsolutePosition();
-        const stageBox = container.getBoundingClientRect();
-
-        // this is an HTML input box not the Konva group obj
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = 'Enter condition text';
-        input.value = '';
-        input.style.position = 'absolute';
-        input.style.top = stageBox.top + textPosition.y + 350 + 'px';
-        input.style.left = stageBox.left + textPosition.x + 825 + 'px';
-        input.style.width =  200 + 'px'
-        input.style.fontSize = 16 + 'px';
-        input.style.border = '2px solid #333';
-        input.style.borderRadius = '4px';
-        input.style.padding = '4px';
-        input.style.textAlign = 'center';
-        input.style.zIndex = '100';
-        input.style.background = '#fff';
-        input.style.color = '#000';
-        container.appendChild(input);
-
-
+    // TODO: pop reward
+    onSubmit(handler: (bet: number) => void) {
+        
+        const inputBox = this.inputBox;
+        if (!inputBox) return;
+        
         this.signInput.on('click', () => {
-            input.focus();
+            inputBox.focus();
         });
 
-
-        // TODO: change to submit numbers, implement game logic
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') this.interactFunction((input.value));
+        inputBox.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !inputBox.value) {
+                this.updateErrorText("Invalid Bet");
+            }
+            else if (e.key === 'Enter' && inputBox.value && isNaN(parseInt(inputBox.value))) {
+                this.updateErrorText("Invalid Bet");
+            }
+            else if (e.key === 'Enter' && inputBox.value) {
+                handler(parseInt(inputBox.value));
+            }
         });
-
-
     }
-    // TODO
-    // public getBet(bet: string): number{
-    //     return parseInt(bet);
-    // }
-
 
 }
