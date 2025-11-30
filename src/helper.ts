@@ -53,7 +53,8 @@ export function createInputWithLabel(
     stage: Konva.Stage,
     labelText: string,
     x: number,
-    y: number
+    y: number,
+    width: number,
   ): HTMLInputElement {
     const container = stage.container();
     const stageRect = container.getBoundingClientRect();
@@ -73,7 +74,7 @@ export function createInputWithLabel(
     const input = document.createElement("input");
     input.type = "number";
     input.style.position = "absolute";
-    input.style.width = `40px`;
+    input.style.width = `${width}px`;
     input.style.left = `${stageRect.left + x + label.offsetWidth+10}px`; // spacing after label
     input.style.top = `${stageRect.top + y}px`;
     document.body.appendChild(input);

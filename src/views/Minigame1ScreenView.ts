@@ -123,52 +123,34 @@ export class Minigame1View implements View {
 
     private initializeInputs() {
         // Three of a Kind
-        let singleThreeInput = createInputWithLabel(this.stage, "Triple:", 220, 270);
+        let singleThreeInput = createInputWithLabel(this.stage, "Triple:", 120, 220, 40);
         this.inputs.push(singleThreeInput);
     
         // Pair and Single 
-        let pairInput = createInputWithLabel(this.stage, "Pair:", 770, 270);
-        let singleInput = createInputWithLabel(this.stage, "Single:", 870, 270);
+        let pairInput = createInputWithLabel(this.stage, "Pair:", 670, 220, 40);
+        let singleInput = createInputWithLabel(this.stage, "Single:", 780, 220, 40);
         this.inputs.push(pairInput, singleInput);
     
         // Three Singles 
-        let threeSingleInput1 = createInputWithLabel(this.stage, "#1:", 1040, 270);
-        let threeSingleInput2 = createInputWithLabel(this.stage, "#2:", 1120, 270);
-        let threeSingleInput3 = createInputWithLabel(this.stage, "#3:", 1200, 270);
+        let threeSingleInput1 = createInputWithLabel(this.stage, "#1:", 950, 220, 40);
+        let threeSingleInput2 = createInputWithLabel(this.stage, "#2:", 1030, 220, 40);
+        let threeSingleInput3 = createInputWithLabel(this.stage, "#3:", 1110, 220, 40);
         this.inputs.push(threeSingleInput1, threeSingleInput2, threeSingleInput3);
     
         // Three out of Four
-        let threeOutOfFour1 = createInputWithLabel(this.stage, "3/4 #1:", 150, 420);
-        let threeOutOfFour2 = createInputWithLabel(this.stage, "3/4 #2:", 270, 420);
-        let threeOutOfFour3 = createInputWithLabel(this.stage, "3/4 #3:", 150, 460);
-        let threeOutOfFour4 = createInputWithLabel(this.stage, "3/4 #4:", 270, 460);
+        let threeOutOfFour1 = createInputWithLabel(this.stage, "3/4 #1:", 70, 375, 40);
+        let threeOutOfFour2 = createInputWithLabel(this.stage, "3/4 #2:", 180, 375, 40);
+        let threeOutOfFour3 = createInputWithLabel(this.stage, "3/4 #3:", 70, 410, 40);
+        let threeOutOfFour4 = createInputWithLabel(this.stage, "3/4 #4:", 180, 410, 40);
         this.inputs.push(threeOutOfFour1, threeOutOfFour2, threeOutOfFour3, threeOutOfFour4);
     
         // Sum of Dice
-        let sumInput = createInputWithLabel(this.stage, "Sum of Dice (4-17):", 360, 820);
+        let sumInput = createInputWithLabel(this.stage, "Sum of Dice (4-17):", 375, 375, 40);
         this.inputs.push(sumInput);
 
         //Bet Input
-        let container = this.stage.container();
-        let betLabel = document.createElement("span");
-        betLabel.innerText = "Bet Amount";
-        betLabel.style.position = "absolute";
-        betLabel.style.left = `1100px`;
-        betLabel.style.top = `600px`;
-        betLabel.style.fontFamily = "Poppins, Arial";
-        betLabel.style.fontSize = "16px";
-        betLabel.style.color = "#ffffff";
-        container.appendChild(betLabel);
-    
-        let betInput = document.createElement("input");
-        betInput.type = "number";
-        betInput.style.position = "absolute";
-        betInput.style.left = `${1100 + betLabel.offsetWidth + 10}px`;
-        betInput.style.top = `600px`;
-        betInput.style.width = `80px`;
-        container.appendChild(betInput);
-
-        this.inputs.push(betInput)
+        let betInput = createInputWithLabel(this.stage, "Bet Amount:", 1000, 570, 80);
+        this.inputs.push(betInput);
     }
 
 
