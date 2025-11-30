@@ -1,28 +1,32 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
-import { RewardsModel } from "../models/RewardsModel.ts";
 import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts";
 import { createButton } from "../helper.ts";
+import { Minigame1Controller } from "../controller/Minigame1ScreenController.ts";
+import { RewardsModel } from "../models/RewardsModel.ts";
+import { Minigame1Model } from "../models/Minigame1Model.ts";
 
 export class Minigame1View implements View {
 
     private stage: Konva.Stage;
     private layer: Konva.Layer;
-    private background: Konva.Rect;
+    private background: Konva.Image;
     private moneyText: Konva.Text;
-    private model: RewardsModel;
     private group: Konva.Group;
 
     private diceImages: HTMLImageElement[] = [];
     private diceSprites: Konva.Image[] = [];
 
     private rollButton: Konva.Group;
-    private betInput: HTMLInputElement;
+    private confirmButton: Konva.Group;
 
-    // Odds buttons (one for each type)
     private oddsButtons: Record<string, Konva.Group> = {};
+    private controller: Minigame1Controller;
+    private rewardsModel: RewardsModel;
+    private minigame1Model: Minigame1Model
 
-    constructor() {
+    constructor(controller: Minigame1Controller) {
+        this.controller = controller;
 
         this.stage = new Konva.Stage({
             container: "konva-container",
@@ -30,15 +34,15 @@ export class Minigame1View implements View {
             height: STAGE_HEIGHT,
         });
 
-        this.model = RewardsModel.getInstance();
-
         this.layer = new Konva.Layer();
         this.stage.add(this.layer);
 
         this.group = new Konva.Group();
         this.layer.add(this.group);
 
-        //Taken from Aman's Class
+        this.rewardsModel = RewardsModel.getInstance();
+        this.minigame1Model = Minigame1Model.getInstance();
+
         Konva.Image.fromURL("act1Background.png", (bg) => {
             bg.x(0);
             bg.y(0);
@@ -50,29 +54,18 @@ export class Minigame1View implements View {
             this.background.moveToBottom();
         });
 
+        // Preload dice images
         for (let i = 1; i <= 6; i++) {
             const img = new Image();
             img.src = `/dice-six-faces-${i}.png`;
             this.diceImages[i - 1] = img;
         }
 
-        for (let i = 0; i < 3; i++) {
-            const sprite = new Konva.Image({
-                x: 120 + i * 140,
-                y: 180,
-                width: 110,
-                height: 110,
-                image: this.diceImages[0],
-            });
-            this.layer.add(sprite);
-            this.diceSprites[i] = sprite;
-        }
-
         this.moneyText = new Konva.Text({
             x: 0,
             y: 40,
-            width: this.stage.width(),
-            text: `Total Money Earned: $${this.model.getCash()}`,
+            width: STAGE_WIDTH,
+            text: `Total Money Earned: $${this.rewardsModel.getCash()}`,
             fontSize: 42,
             fontFamily: "Poppins, Arial",
             fontStyle: "bold",
@@ -84,38 +77,50 @@ export class Minigame1View implements View {
         });
         this.layer.add(this.moneyText);
 
+        this.initializeDice();
         this.initializeButtons();
+
         this.layer.draw();
     }
 
-    private initializeButtons() {
-        let y = 350;
-        const x = 40;
-
-        let bets = ["Three of a Kind", "All Three of a Kind", "A Pair and a Single", "Three Singles", "Three out of Four",
-            "Total Sum of Dice (4-17)", "Small Odds",
-            "Big Odds",
-            "Odd Odds",
-            "Even Odds"
-        ];
-
-        bets.forEach((name) => {
-            const btn = createButton(name, x, y, () => this.onOddsSelect(name), this.layer);
-            this.oddsButtons[name] = btn;
-            y += 70;
-        });
-
-        this.rollButton = createButton(
-            "ROLL DICE", STAGE_WIDTH - 340, 520, () => this.onRollClick(), this.layer);
+    private initializeDice() {
+        const diceY = 180;
+        for (let i = 0; i < 3; i++) {
+            const sprite = new Konva.Image({
+                x: 120 + i * 140,
+                y: diceY,
+                width: 110,
+                height: 110,
+                image: this.diceImages[0],
+            });
+            this.layer.add(sprite);
+            this.diceSprites[i] = sprite;
+        }
     }
 
+    private initializeButtons() {
+        createButton("Three of a Kind", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("All Three of a Kind", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("A Pair and a Single", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Three Singles", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Three out of Four", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Total Sum of Dice (4-17)", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Small Odds", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Big Odds", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Odd Odds", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Even Odds", 40, 40, () => this.onRollClick(), this.layer);
 
-    private onOddsSelect(name: string) {
-        console.log("Selected odds:", name);
+    
+        // Roll button
+        this.rollButton = createButton(
+            "ROLL DICE", STAGE_WIDTH - 340, 520, () => this.onRollClick(), this.layer
+        );
     }
 
     private onRollClick() {
-        console.log("Roll button clicked");
+        this.controller.roll_dice();
+        const { dice1, dice2, dice3 } = this.minigame1Model;
+        this.updateDice(dice1, dice2, dice3);
     }
 
     public updateDice(d1: number, d2: number, d3: number) {
@@ -131,14 +136,7 @@ export class Minigame1View implements View {
     }
 
     public displayResult(isWin: boolean, winnings: number) {
-        const msg = isWin
-            ? `You won $${winnings}!`
-            : `You lost $${Math.abs(winnings)}`;
-        alert(msg);
-    }
-
-    public showError(msg: string) {
-        alert("Error: " + msg);
+        alert(isWin ? `You won $${winnings}!` : `You lost $${Math.abs(winnings)}`);
     }
 
     getGroup(): Konva.Group {
