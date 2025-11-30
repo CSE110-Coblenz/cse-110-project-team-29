@@ -1,4 +1,4 @@
-import type { value, result} from '../TYPES/value';
+import type { value, result} from '../types/value';
 
 export class MiniGame2Model {
     
