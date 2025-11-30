@@ -50,29 +50,33 @@ export function createButton(text: string, x: number, y: number, onClick: () => 
 }
 
 export function createInputWithLabel(
-    parent: HTMLElement,
+    stage: Konva.Stage,
     labelText: string,
     x: number,
     y: number,
-
 ): HTMLInputElement {
+    const container = stage.container(); // HTML container for the stage
+
+    // Create label
     const label = document.createElement("span");
     label.innerText = labelText;
     label.style.position = "absolute";
-    label.style.left = `${x}px`;
-    label.style.top = `${y}px`;
     label.style.fontFamily = "Poppins, Arial";
     label.style.fontSize = "16px";
     label.style.color = "#ffffff";
-    parent.appendChild(label);
+    label.style.left = `${x}px`;
+    label.style.top = `${y}px`;
+    container.appendChild(label);
 
+    // Create input
     const input = document.createElement("input");
     input.type = "number";
     input.style.position = "absolute";
-    input.style.left = `${x + label.offsetWidth + 10}px`;
-    input.style.top = `${y}px`;
     input.style.width = `40px`;
+    input.style.left = `${x + 10 + label.offsetWidth}px`; 
+    input.style.top = `${y}px`;
+    container.appendChild(input);
 
-    parent.appendChild(input);
     return input;
 }
+
