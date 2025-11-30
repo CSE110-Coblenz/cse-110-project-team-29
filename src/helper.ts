@@ -54,6 +54,7 @@ export function createInputWithLabel(
     labelText: string,
     x: number,
     y: number,
+
 ): HTMLInputElement {
     const label = document.createElement("span");
     label.innerText = labelText;

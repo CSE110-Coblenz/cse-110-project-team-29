@@ -57,7 +57,7 @@ export class Minigame1View implements View {
 
         // Preload dice images
         for (let i = 1; i <= 6; i++) {
-            const img = new Image();
+            let img = new Image();
             img.src = `/dice-six-faces-${i}.png`;
             this.diceImages[i - 1] = img;
         }
@@ -88,9 +88,9 @@ export class Minigame1View implements View {
     }
 
     private initializeDice() {
-        const diceY = 570;
+        let diceY = 570;
         for (let i = 0; i < 3; i++) {
-            const sprite = new Konva.Image({
+            let sprite = new Konva.Image({
                 x: 550 + i * 140,
                 y: diceY,
                 width: 110,
@@ -121,34 +121,53 @@ export class Minigame1View implements View {
         );
     }
 
-    private inputs: HTMLInputElement[] = [];
-
     private initializeInputs() {
-        // Single Three of a Kind
-        const singleThreeInput = createInputWithLabel(document.body, "Triple:", 220, 270);
+        // Three of a Kind
+        let singleThreeInput = createInputWithLabel(document.body, "Triple:", 220, 270);
         this.inputs.push(singleThreeInput);
     
-        // Pair and Single (two inputs)
-        const pairInput = createInputWithLabel(document.body, "Pair:", 770, 270);
-        const singleInput = createInputWithLabel(document.body, "Single:", 870, 270);
+        // Pair and Single 
+        let pairInput = createInputWithLabel(document.body, "Pair:", 770, 270);
+        let singleInput = createInputWithLabel(document.body, "Single:", 870, 270);
         this.inputs.push(pairInput, singleInput);
     
-        // Three Singles (three inputs)
-        const threeSingleInput1 = createInputWithLabel(document.body, "#1:", 1040, 270);
-        const threeSingleInput2 = createInputWithLabel(document.body, "#2:", 1120, 270);
-        const threeSingleInput3 = createInputWithLabel(document.body, "#3:", 1200, 270);
+        // Three Singles 
+        let threeSingleInput1 = createInputWithLabel(document.body, "#1:", 1040, 270);
+        let threeSingleInput2 = createInputWithLabel(document.body, "#2:", 1120, 270);
+        let threeSingleInput3 = createInputWithLabel(document.body, "#3:", 1200, 270);
         this.inputs.push(threeSingleInput1, threeSingleInput2, threeSingleInput3);
     
-        // Three out of Four (four inputs)
-        const threeOutOfFour1 = createInputWithLabel(document.body, "3/4 #1:", 150, 420);
-        const threeOutOfFour2 = createInputWithLabel(document.body, "3/4 #2:", 270, 420);
-        const threeOutOfFour3 = createInputWithLabel(document.body, "3/4 #3:", 150, 460);
-        const threeOutOfFour4 = createInputWithLabel(document.body, "3/4 #4:", 270, 460);
+        // Three out of Four
+        let threeOutOfFour1 = createInputWithLabel(document.body, "3/4 #1:", 150, 420);
+        let threeOutOfFour2 = createInputWithLabel(document.body, "3/4 #2:", 270, 420);
+        let threeOutOfFour3 = createInputWithLabel(document.body, "3/4 #3:", 150, 460);
+        let threeOutOfFour4 = createInputWithLabel(document.body, "3/4 #4:", 270, 460);
         this.inputs.push(threeOutOfFour1, threeOutOfFour2, threeOutOfFour3, threeOutOfFour4);
     
-        // Sum of Dice (4-17)
-        const sumInput = createInputWithLabel(document.body,"Sum of Dice (4-17):", 360, 820);
+        // Sum of Dice
+        let sumInput = createInputWithLabel(document.body,"Sum of Dice (4-17):", 360, 820);
         this.inputs.push(sumInput);
+
+        //Bet Input
+        let betLabel = document.createElement("span");
+        betLabel.innerText = "Bet Amount";
+        betLabel.style.position = "absolute";
+        betLabel.style.left = `1100px`;
+        betLabel.style.top = `600px`;
+        betLabel.style.fontFamily = "Poppins, Arial";
+        betLabel.style.fontSize = "16px";
+        betLabel.style.color = "#ffffff";
+        document.body.appendChild(betLabel);
+    
+        let betInput = document.createElement("input");
+        betInput.type = "number";
+        betInput.style.position = "absolute";
+        betInput.style.left = `${1100 + betLabel.offsetWidth + 10}px`;
+        betInput.style.top = `600px`;
+        betInput.style.width = `80px`;
+        document.body.appendChild(betInput);
+
+        this.inputs.push(betInput)
     }
 
 
@@ -163,7 +182,7 @@ export class Minigame1View implements View {
 
     private onRollClick() {
         this.controller.roll_dice();
-        const { dice1, dice2, dice3 } = this.minigame1Model;
+        let { dice1, dice2, dice3 } = this.minigame1Model;
         this.updateDice(dice1, dice2, dice3);
     }
 
@@ -237,4 +256,5 @@ export class Minigame1View implements View {
         this.hideInputs();
         this.layer.draw();
     }
+    
 }
