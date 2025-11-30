@@ -26,6 +26,10 @@ export class Minigame1View implements View {
     private minigame1Model: Minigame1Model
     private inputs: HTMLInputElement[] = [];
 
+    private betInfoGroup: Konva.Group;
+    private betTypeText: Konva.Text;
+    private betOddsText: Konva.Text;
+
     constructor(controller: Minigame1Controller) {
         this.controller = controller;
 
@@ -78,11 +82,12 @@ export class Minigame1View implements View {
         });
         this.layer.add(this.moneyText);
 
+
+
         this.initializeDice();
         this.initializeButtons();
         this.initializeInputs();
-
-        
+        this.createBetInfoBox();
 
         this.layer.draw();
     }
@@ -102,6 +107,49 @@ export class Minigame1View implements View {
         }
     }
 
+    private createBetInfoBox() {
+        this.betInfoGroup = new Konva.Group({
+            x: 20,
+            y: STAGE_HEIGHT - 140,
+        });
+    
+        // Background box
+        const bgRect = new Konva.Rect({
+            width: 450,
+            height: 110,
+            cornerRadius: 10,
+            fill: "rgba(0, 0, 0, 0.5)",
+            stroke: "#ffffff",
+            strokeWidth: 2,
+        });
+    
+        // "Bet Type"
+        this.betTypeText = new Konva.Text({
+            x: 10,
+            y: 10,
+            text: "Bet Type: None",
+            fontSize: 30,
+            fontFamily: "Poppins, Arial",
+            fill: "#ffffff",
+        });
+    
+        // "Bet Odds"
+        this.betOddsText = new Konva.Text({
+            x: 10,
+            y: 50,
+            text: "Bet Odds: None",
+            fontSize: 30,
+            fontFamily: "Poppins, Arial",
+            fill: "#ffffff",
+        });
+    
+        this.betInfoGroup.add(bgRect);
+        this.betInfoGroup.add(this.betTypeText);
+        this.betInfoGroup.add(this.betOddsText);
+    
+        this.layer.add(this.betInfoGroup);
+    }    
+
     private initializeButtons() {
         createButton("Single Three of a Kind", 60, 150, () => this.onOddsSelect("Single Three of a Kind"), this.layer);
         createButton("All Three of a Kind", 360, 150, () => this.onOddsSelect("All Three of a Kind"), this.layer);
@@ -117,7 +165,7 @@ export class Minigame1View implements View {
     
         // Roll button
         this.rollButton = createButton(
-            "ROLL DICE", STAGE_WIDTH - 300, 600, () => this.onRollClick(), this.layer
+            "ROLL AND BET", STAGE_WIDTH - 300, 600, () => this.onRollClick(), this.layer
         );
     }
 
@@ -153,9 +201,6 @@ export class Minigame1View implements View {
         this.inputs.push(betInput);
     }
 
-
-
-
     public showInputs() {
         this.inputs.forEach((input) => (input.style.display = "inline"));
     }   
@@ -164,11 +209,15 @@ export class Minigame1View implements View {
         this.inputs.forEach((input) => (input.style.display = "none"));
     }
 
-
     private onRollClick() {
         this.controller.roll_dice();
         let { dice1, dice2, dice3 } = this.minigame1Model;
         this.updateDice(dice1, dice2, dice3);
+
+        this.minigame1Model.bet = Number(this.inputs[11].value) || 0;
+        this.controller.gamblingLoop();
+        this.displayCash(this.rewardsModel.getCash());
+        this.betOddsText.text(`Bet Odds: Click Again to View`);
     }
 
     public updateDice(d1: number, d2: number, d3: number) {
@@ -184,24 +233,40 @@ export class Minigame1View implements View {
     }
 
     private onOddsSelect(name: string) {
+        this.betTypeText.text(`Bet Type: ${name}`);
+
         switch (name) {
             case "Single Three of a Kind":
                 this.minigame1Model.betType = "threeOfAKindIndividualOdds";
+                this.minigame1Model.required_dice[0] = Number(this.inputs[0].value) || 0;
+                this.minigame1Model.required_dice[1] = Number(this.inputs[0].value) || 0;
+                this.minigame1Model.required_dice[2] = Number(this.inputs[0].value) || 0;
                 break;
             case "All Three of a Kind":
                 this.minigame1Model.betType = "threeOfAKindGroupOdds";
                 break;
             case "Pair and Single":
                 this.minigame1Model.betType = "pairAndSingleIndividualOdds";
+                this.minigame1Model.required_dice[0] = Number(this.inputs[1].value) || 0; 
+                this.minigame1Model.required_dice[1] = Number(this.inputs[1].value) || 0; 
+                this.minigame1Model.required_dice[2] = Number(this.inputs[2].value) || 0; 
                 break;
             case "Three Singles":
                 this.minigame1Model.betType = "threeSinglesIndividualOdds";
+                this.minigame1Model.required_dice[0] = Number(this.inputs[3].value) || 0; 
+                this.minigame1Model.required_dice[1] = Number(this.inputs[4].value) || 0; 
+                this.minigame1Model.required_dice[2] = Number(this.inputs[5].value) || 0; 
                 break;
             case "Three out of Four":
                 this.minigame1Model.betType = "threeOutOfFourOdds";
+                this.minigame1Model.required_dice[0] = Number(this.inputs[6].value) || 0;
+                this.minigame1Model.required_dice[1] = Number(this.inputs[7].value) || 0;
+                this.minigame1Model.required_dice[2] = Number(this.inputs[8].value) || 0;
+                this.minigame1Model.required_dice[3] = Number(this.inputs[9].value) || 0;
                 break;
             case "Sum of Dice (4-17)":
                 this.minigame1Model.betType = "totals4Through17Odds";
+                this.minigame1Model.required_dice[4] = Number(this.inputs[10].value) || 0; 
                 break;
             case "Small Odds":
                 this.minigame1Model.betType = "smallOdds";
@@ -219,12 +284,12 @@ export class Minigame1View implements View {
                 console.warn("Unknown odds button:", name);
                 return;
         }
+
+
+        this.controller.setBetOdds();
+        this.betOddsText.text(`Bet Odds: ${this.minigame1Model.betOdds}x`);
     }
     
-
-    public displayResult(isWin: boolean, winnings: number) {
-        alert(isWin ? `You won $${winnings}!` : `You lost $${Math.abs(winnings)}`);
-    }
 
     getGroup(): Konva.Group {
         return this.group;
@@ -241,9 +306,5 @@ export class Minigame1View implements View {
         this.hideInputs();
         this.layer.draw();
     }
-
-
-
-
     
 }

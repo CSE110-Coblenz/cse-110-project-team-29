@@ -65,13 +65,17 @@ export class Minigame1Controller {
 		}	
 	}
 
+	public setBetOdds(): void {
+		this.model.betOdds = this.betOddsChoose();
+	}
+
 	public setBet(bet: number, betType: string, required_dice: Array<number>) {
 		this.model.bet = bet; 
 		this.model.betType = betType; 
 		for (let i = 0; i < 5; i++) {
 			this.model.required_dice[i] = required_dice[i] || 0;
 		}
-		this.model.betOdds = this.betOddsChoose();
+		this.setBetOdds();
 		this.model.rewardsModel.subtractCash(this.model.bet);
 	}
 
@@ -131,5 +135,19 @@ export class Minigame1Controller {
 			case "evenOdds": {if (dice_sum % 2 == 0) {this.model.isWin = true;} break;}
 			default: {this.model.isWin = false;}
 		}
+	}
+
+	public gamblingLoop() {
+		this.setBet(this.model.bet, this.model.betType, this.model.required_dice);
+		this.model.isWin = false;
+		this.determineWin();
+		if (this.model.isWin) {
+			this.winBet();
+		}
+		else {
+			this.loseBet();
+		}
+		this.randomize_odds();
+		
 	}
 }

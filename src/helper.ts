@@ -56,11 +56,11 @@ export function createInputWithLabel(
     y: number,
     width: number,
   ): HTMLInputElement {
-    const container = stage.container();
-    const stageRect = container.getBoundingClientRect();
+    let container = stage.container();
+    let stageRect = container.getBoundingClientRect();
   
     // Create label
-    const label = document.createElement("span");
+    let label = document.createElement("span");
     label.innerText = labelText;
     label.style.position = "absolute";
     label.style.fontFamily = "Poppins, Arial";
@@ -71,15 +71,27 @@ export function createInputWithLabel(
     document.body.appendChild(label);
   
     // Create input
-    const input = document.createElement("input");
+    let input = document.createElement("input");
     input.type = "number";
     input.style.position = "absolute";
     input.style.width = `${width}px`;
-    input.style.left = `${stageRect.left + x + label.offsetWidth+10}px`; // spacing after label
+    input.style.left = `${stageRect.left + x + label.offsetWidth + 10}px`; 
     input.style.top = `${stageRect.top + y}px`;
     document.body.appendChild(input);
+
+    //resize on window moving
+    function position() {
+        let rect = container.getBoundingClientRect();
+        label.style.left = `${rect.left + x}px`;
+        label.style.top = `${rect.top + y}px`;
+        input.style.left = `${rect.left + x + label.offsetWidth + 10}px`;
+        input.style.top = `${rect.top + y}px`;
+      }
+      position();
+      window.addEventListener("resize", position);
   
     return input;
+    //add returning label so that can hide too 
   }
   
 
