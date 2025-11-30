@@ -1,9 +1,9 @@
 import Konva from "konva";
-import { MiniGame2Model } from "../models/MiniGame2Model";
-import { MiniGame2View } from "../views/MiniGame2View";
-import { ScreenController } from "./ScreenController";
-import { RewardsModel } from "../models/RewardsModel";
-import type { result } from "../types/value";
+import { MiniGame2Model } from "../mod/MiniGame2Model";
+import { MiniGame2View } from "../view/MiniGame2View";
+import { ScreenController } from "../cont/ScreenController";
+import { RewardsModel } from "../mod/RewardsModel";
+import type { result } from "../type/value";
 export class MiniGame2Controller extends ScreenController {
     private model: MiniGame2Model;
     private view: MiniGame2View;
