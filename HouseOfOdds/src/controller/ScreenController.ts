@@ -6,7 +6,7 @@ export type Screen =
     | { type: "act1" , resumeIndex?: number | undefined}
     | { type: "act2", resumeIndex?: number | undefined}
     | { type: "act3", resumeIndex?: number | undefined}
-    // | { type: "miniGame2", nextScreen: Screen }
+    // | { type: "miniGame2"}
     | { type: "rewards"; isCorrect: boolean; returnTo: "act1" | "act2" | "act3";  nextIndex?: number }
     | { type: "end" }
 

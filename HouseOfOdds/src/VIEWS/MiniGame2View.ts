@@ -8,7 +8,6 @@ import type { View } from "./View";
 export class MiniGame2View implements View{
 
     private layer: Konva.Layer;
-    private text: Konva.Text;
     private inputBox: SignInput;
     private moneyText: Konva.Text;
     private rewardPop: RewardPop;
@@ -17,9 +16,11 @@ export class MiniGame2View implements View{
     // TODO
     constructor(stage: Konva.Stage) {
     
-
+        // Init main layer
         this.layer = new Konva.Layer();
 
+
+        // Add background
         const background = new Konva.Rect({
 			x: 0,
 			y: 0,
@@ -39,10 +40,13 @@ export class MiniGame2View implements View{
         this.layer.add(background);
 
 
-        this.exitButton = new ExitButton(1175, 20);
+        // Add exit button component
+        this.exitButton = new ExitButton(1175, 20, this.hide.bind(this));
         this.layer.add(this.exitButton.getGroup());
+        this.layer.add(this.exitButton.getPopUp());
 
 
+        // Add roulette circle component
         const circle = new Konva.Circle({
             x: 340,
             y: 370,
@@ -54,6 +58,7 @@ export class MiniGame2View implements View{
         this.layer.add(circle);
 
 
+        // Add money text
         this.moneyText = new Konva.Text({
             x: -350,
             y: 20, // moved down
@@ -71,24 +76,18 @@ export class MiniGame2View implements View{
         this.layer.add(this.moneyText);
 
 
-        this.text = new Konva.Text({
-            x: 370,
-            y: 300,
-            text: "",
-            fontSize: 30,
-            fontFamily: 'Arial',
-            fill: 'black',
-        });
-        this.layer.add(this.text);
-
-
+        // Add sign component
         this.inputBox = new SignInput(675, 150);
         this.layer.add(this.inputBox.getSignInput());
 
 
+        // Add reward pop-up component
         this.rewardPop = new RewardPop(180, 50, this.closeReward.bind(this));
         this.layer.add(this.rewardPop.getGroup());
 
+
+        //default hide this view upon construction
+        this.hide();
         
     }
 
@@ -98,37 +97,36 @@ export class MiniGame2View implements View{
         this.inputBox.onSubmit(handler);
     }
 
+    // VIEW show
     show(): void {
         this.layer.show();       
+        this.inputBox.showInputBox();
     }
 
+    // VIEW hide
     hide(): void {
         this.layer.hide();    
+        this.inputBox.hideInputBox();
     }
 
-    public getInputBox(): SignInput {
-        return this.inputBox;
-    }
-
+    // reward pop-up
     public popReward(result: result): void {
         this.rewardPop.showResult(result);
         this.inputBox.hideInputBox();
         this.rewardPop.getGroup().show();
     }
-
     public closeReward(): void {
         this.rewardPop.getGroup().hide();
         this.inputBox.showInputBox();
     }
 
-    public updateText(newText: string): void {
-        this.text.text(newText);
+    // Getters
+    public getInputBox(): SignInput {
+        return this.inputBox;
     }
-
     public getLayer(): Konva.Layer {
         return this.layer;
     }
-
     public getGroup(): Konva.Group {
         return new Konva.Group();
     }

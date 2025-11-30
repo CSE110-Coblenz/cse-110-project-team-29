@@ -2,6 +2,7 @@ import Konva from "konva";
 import { MiniGame2Model } from "../models/MiniGame2Model";
 import { MiniGame2View } from "../views/MiniGame2View";
 import { ScreenController } from "./ScreenController";
+import { RewardsModel } from "../models/RewardsModel";
 import type { result} from "../TYPES/value";
 export class MiniGame2Controller extends ScreenController {
     private model: MiniGame2Model;
@@ -17,14 +18,23 @@ export class MiniGame2Controller extends ScreenController {
         let cond = this.getCondition();
         this.view.getInputBox().updateConditionText(cond);
 
+        // add the view's layer to the stage
         stage.add(this.view.getLayer());
-        this.show();
-        // this.hide();
+
+
+        this.show(); // DELETE THIS WHEN DONE
+
 
         this.view.bindSubmit( (bet: number) => {
-
+            
+            // spin the wheel and get result from MODEL
+            if (bet > RewardsModel.getInstance().getCash()){
+                this.view.getInputBox().updateErrorText("Not enough money!");
+                return;
+            }
             const result = this.handleSpin(cond, bet);
 
+            RewardsModel.getInstance().addCash(result.payout);
             this.view.popReward(result);
 
             this.view.getInputBox().clearInputBox();

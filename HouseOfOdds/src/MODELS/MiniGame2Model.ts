@@ -1,4 +1,5 @@
 import type { value, result} from '../TYPES/value';
+
 export class MiniGame2Model {
     
     private probabilityList: number[] = [
@@ -22,35 +23,7 @@ export class MiniGame2Model {
          
     }
 
-    // threeish conditions
-
-
-
-
-
     constructor() {}
-    // TODO: throw error if bet is invalid
-    // user inputs bet amount
-    // color bet (text or button)
-    public bet(): number {
-        return 1;
-    }
-    
-    public increaseBet(num: number): void {
-        
-    }
-
-    public decreaseBet(num: number): void {
-        
-    }
-
-    public resetBet(): void {
-        
-    }
-
-
-
-
 
     // spins the roulette and determines the outcome
     public spin(condition: string, bet: number): result {

@@ -39,14 +39,24 @@ export class RewardPop {
         });
         continueButton.add(continueBox);
         const continueText = new Konva.Text({
-            x: 545,
+            x: 525,
             y: 448,
             text: 'Continue',
             fontSize: 45,
-            fontFamily: 'Arial',
-            fill: 'black',
+            fontFamily: 'Arial Black',
+            fill: 'white',
         })
         continueButton.add(continueText);
+
+        // continue button events
+        continueButton.addEventListener('mouseover', () => {
+            document.body.style.cursor = 'pointer';
+            continueBox.fill('darkred');
+        });
+        continueButton.addEventListener('mouseout', () => {
+            document.body.style.cursor = 'default';
+            continueBox.fill('red');
+        })
         continueButton.addEventListener('click', () => {
             close();
         })

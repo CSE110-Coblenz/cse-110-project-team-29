@@ -114,9 +114,25 @@ export class SignInput extends Konva.Group {
     }
 
     updateErrorText(error: string): void {
-        this.errorText.opacity(0);
+        this.errorText.setAttr('opacity', 0)
         this.errorText.text(error);
-        this.errorText.to({opacity: 1, duration: 0.2});
+        this.errorText.show();
+        this.errorText.getLayer()?.batchDraw();
+        this.errorText.to({
+            opacity: 1,
+            duration: 0.2,
+            onFinish: () => {
+                setTimeout(() => {
+
+                    this.errorText.to({
+                        opacity: 0,
+                        duration: 0.2,
+                        delay: 2,
+                    });
+                    this.errorText.hide();
+                }, 2000);
+            },
+        });
     }
 
     // TODO: pop reward
