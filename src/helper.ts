@@ -19,7 +19,7 @@ export function tripletsEqual(a1: number, a2: number, a3: number, b1: number, b2
 export function createButton(text: string, x: number, y: number, onClick: () => void, layer: Konva.Layer) {
     const rect = new Konva.Rect({
         x, y,
-        width: 300,
+        width: 225,
         height: 60,
         fill: "#222",
         cornerRadius: 12,
@@ -30,7 +30,7 @@ export function createButton(text: string, x: number, y: number, onClick: () => 
     const label = new Konva.Text({
         x,
         y: y + 20,
-        width: 300,
+        width: 225,
         text,
         align: "center",
         fill: "#00ff00",
@@ -47,4 +47,31 @@ export function createButton(text: string, x: number, y: number, onClick: () => 
     layer.add(group);
 
     return group;
+}
+
+export function createInputWithLabel(
+    parent: HTMLElement,
+    labelText: string,
+    x: number,
+    y: number,
+): HTMLInputElement {
+    const label = document.createElement("span");
+    label.innerText = labelText;
+    label.style.position = "absolute";
+    label.style.left = `${x}px`;
+    label.style.top = `${y}px`;
+    label.style.fontFamily = "Poppins, Arial";
+    label.style.fontSize = "16px";
+    label.style.color = "#ffffff";
+    parent.appendChild(label);
+
+    const input = document.createElement("input");
+    input.type = "number";
+    input.style.position = "absolute";
+    input.style.left = `${x + label.offsetWidth + 10}px`;
+    input.style.top = `${y}px`;
+    input.style.width = `40px`;
+
+    parent.appendChild(input);
+    return input;
 }

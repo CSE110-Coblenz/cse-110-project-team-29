@@ -1,7 +1,7 @@
 import Konva from "konva";
 import type { View } from "./View.ts";
 import { STAGE_WIDTH, STAGE_HEIGHT } from "../constants.ts";
-import { createButton } from "../helper.ts";
+import { createButton, createInputWithLabel } from "../helper.ts";
 import { Minigame1Controller } from "../controller/Minigame1ScreenController.ts";
 import { RewardsModel } from "../models/RewardsModel.ts";
 import { Minigame1Model } from "../models/Minigame1Model.ts";
@@ -24,6 +24,7 @@ export class Minigame1View implements View {
     private controller: Minigame1Controller;
     private rewardsModel: RewardsModel;
     private minigame1Model: Minigame1Model
+    private inputs: HTMLInputElement[] = [];
 
     constructor(controller: Minigame1Controller) {
         this.controller = controller;
@@ -79,15 +80,18 @@ export class Minigame1View implements View {
 
         this.initializeDice();
         this.initializeButtons();
+        this.initializeInputs();
+
+        
 
         this.layer.draw();
     }
 
     private initializeDice() {
-        const diceY = 180;
+        const diceY = 570;
         for (let i = 0; i < 3; i++) {
             const sprite = new Konva.Image({
-                x: 120 + i * 140,
+                x: 550 + i * 140,
                 y: diceY,
                 width: 110,
                 height: 110,
@@ -99,23 +103,63 @@ export class Minigame1View implements View {
     }
 
     private initializeButtons() {
-        createButton("Three of a Kind", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("All Three of a Kind", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("A Pair and a Single", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("Three Singles", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("Three out of Four", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("Total Sum of Dice (4-17)", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("Small Odds", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("Big Odds", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("Odd Odds", 40, 40, () => this.onRollClick(), this.layer);
-        createButton("Even Odds", 40, 40, () => this.onRollClick(), this.layer);
+        createButton("Single Three of a Kind", 60, 150, () => this.onOddsSelect("Single Three of a Kind"), this.layer);
+        createButton("All Three of a Kind", 360, 150, () => this.onOddsSelect("All Three of a Kind"), this.layer);
+        createButton("Pair and Single", 660, 150, () => this.onOddsSelect("Pair and Single"), this.layer);
+        createButton("Three Singles", 960, 150, () => this.onOddsSelect("Three Singles"), this.layer);
+        createButton("Three out of Four", 60, 300, () => this.onOddsSelect("Three out of Four"), this.layer);
+        createButton("Sum of Dice (4-17)", 360, 300, () => this.onOddsSelect("Sum of Dice (4-17)"), this.layer);
+        createButton("Small Odds", 660, 300, () => this.onOddsSelect("Small Odds"), this.layer);
+        createButton("Big Odds", 960, 300, () => this.onOddsSelect("Big Odds"), this.layer);
+        createButton("Odd Odds", 660, 450, () => this.onOddsSelect("Odd Odds"), this.layer);
+        createButton("Even Odds", 360, 450, () => this.onOddsSelect("Even Odds"), this.layer);        
 
     
         // Roll button
         this.rollButton = createButton(
-            "ROLL DICE", STAGE_WIDTH - 340, 520, () => this.onRollClick(), this.layer
+            "ROLL DICE", STAGE_WIDTH - 300, 600, () => this.onRollClick(), this.layer
         );
     }
+
+    private inputs: HTMLInputElement[] = [];
+
+    private initializeInputs() {
+        // Single Three of a Kind
+        const singleThreeInput = createInputWithLabel(document.body, "Triple:", 220, 270);
+        this.inputs.push(singleThreeInput);
+    
+        // Pair and Single (two inputs)
+        const pairInput = createInputWithLabel(document.body, "Pair:", 770, 270);
+        const singleInput = createInputWithLabel(document.body, "Single:", 870, 270);
+        this.inputs.push(pairInput, singleInput);
+    
+        // Three Singles (three inputs)
+        const threeSingleInput1 = createInputWithLabel(document.body, "#1:", 1040, 270);
+        const threeSingleInput2 = createInputWithLabel(document.body, "#2:", 1120, 270);
+        const threeSingleInput3 = createInputWithLabel(document.body, "#3:", 1200, 270);
+        this.inputs.push(threeSingleInput1, threeSingleInput2, threeSingleInput3);
+    
+        // Three out of Four (four inputs)
+        const threeOutOfFour1 = createInputWithLabel(document.body, "3/4 #1:", 150, 420);
+        const threeOutOfFour2 = createInputWithLabel(document.body, "3/4 #2:", 270, 420);
+        const threeOutOfFour3 = createInputWithLabel(document.body, "3/4 #3:", 150, 460);
+        const threeOutOfFour4 = createInputWithLabel(document.body, "3/4 #4:", 270, 460);
+        this.inputs.push(threeOutOfFour1, threeOutOfFour2, threeOutOfFour3, threeOutOfFour4);
+    
+        // Sum of Dice (4-17)
+        const sumInput = createInputWithLabel(document.body,"Sum of Dice (4-17):", 360, 820);
+        this.inputs.push(sumInput);
+    }
+
+
+    public showInputs() {
+        this.inputs.forEach((input) => (input.style.display = "inline"));
+    }   
+
+    public hideInputs() {
+        this.inputs.forEach((input) => (input.style.display = "none"));
+    }
+
 
     private onRollClick() {
         this.controller.roll_dice();
@@ -135,6 +179,45 @@ export class Minigame1View implements View {
         this.layer.draw();
     }
 
+    private onOddsSelect(name: string) {
+        switch (name) {
+            case "Single Three of a Kind":
+                this.minigame1Model.betType = "threeOfAKindIndividualOdds";
+                break;
+            case "All Three of a Kind":
+                this.minigame1Model.betType = "threeOfAKindGroupOdds";
+                break;
+            case "Pair and Single":
+                this.minigame1Model.betType = "pairAndSingleIndividualOdds";
+                break;
+            case "Three Singles":
+                this.minigame1Model.betType = "threeSinglesIndividualOdds";
+                break;
+            case "Three out of Four":
+                this.minigame1Model.betType = "threeOutOfFourOdds";
+                break;
+            case "Sum of Dice (4-17)":
+                this.minigame1Model.betType = "totals4Through17Odds";
+                break;
+            case "Small Odds":
+                this.minigame1Model.betType = "smallOdds";
+                break;
+            case "Big Odds":
+                this.minigame1Model.betType = "bigOdds";
+                break;
+            case "Odd Odds":
+                this.minigame1Model.betType = "oddOdds";
+                break;
+            case "Even Odds":
+                this.minigame1Model.betType = "evenOdds";
+                break;
+            default:
+                console.warn("Unknown odds button:", name);
+                return;
+        }
+    }
+    
+
     public displayResult(isWin: boolean, winnings: number) {
         alert(isWin ? `You won $${winnings}!` : `You lost $${Math.abs(winnings)}`);
     }
@@ -145,11 +228,13 @@ export class Minigame1View implements View {
 
     show(): void {
         this.layer.show();
+        this.showInputs();
         this.layer.draw();
     }
 
     hide(): void {
         this.layer.hide();
+        this.hideInputs();
         this.layer.draw();
     }
 }
