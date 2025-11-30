@@ -53,10 +53,11 @@ export function createInputWithLabel(
     stage: Konva.Stage,
     labelText: string,
     x: number,
-    y: number,
-): HTMLInputElement {
-    const container = stage.container(); // HTML container for the stage
-
+    y: number
+  ): HTMLInputElement {
+    const container = stage.container();
+    const stageRect = container.getBoundingClientRect();
+  
     // Create label
     const label = document.createElement("span");
     label.innerText = labelText;
@@ -64,19 +65,20 @@ export function createInputWithLabel(
     label.style.fontFamily = "Poppins, Arial";
     label.style.fontSize = "16px";
     label.style.color = "#ffffff";
-    label.style.left = `${x}px`;
-    label.style.top = `${y}px`;
-    container.appendChild(label);
-
+    label.style.left = `${stageRect.left + x}px`;
+    label.style.top = `${stageRect.top + y}px`;
+    document.body.appendChild(label);
+  
     // Create input
     const input = document.createElement("input");
     input.type = "number";
     input.style.position = "absolute";
     input.style.width = `40px`;
-    input.style.left = `${x + 10 + label.offsetWidth}px`; 
-    input.style.top = `${y}px`;
-    container.appendChild(input);
-
+    input.style.left = `${stageRect.left + x + label.offsetWidth+10}px`; // spacing after label
+    input.style.top = `${stageRect.top + y}px`;
+    document.body.appendChild(input);
+  
     return input;
-}
+  }
+  
 
