@@ -1,9 +1,9 @@
 import Konva from "konva";
-import { SignInput } from "../comp/signInput";
-import { RewardPop } from "../comp/RewardPop";
-import { ExitButton } from "../comp/exitButton";
-import { RewardsModel } from "../mod/RewardsModel";
-import type { result } from "../type/value";
+import { SignInput } from "../components/signInput";
+import { RewardPop } from "../components/RewardPop";
+import { ExitButton } from "../components/exitButton";
+import { RewardsModel } from "../models/RewardsModel";
+import type { result } from "../types/value";
 import type { View } from "./View";
 export class MiniGame2View implements View{
 

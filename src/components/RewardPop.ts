@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import type { result } from "../type/value";
+import type { result } from "../types/value";
 export class RewardPop {
     private group: Konva.Group
     private popText : Konva.Text

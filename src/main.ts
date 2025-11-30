@@ -1,5 +1,5 @@
 import './style.css'
-import { MiniGame2Controller } from './cont/MiniGame2Controller';
+import { MiniGame2Controller } from './controller/MiniGame2Controller';
 import Konva from 'konva';
 
 class App {
