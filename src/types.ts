@@ -14,3 +14,13 @@ export interface IScreenController {
     show(): void;
     hide(): void;
 }
+
+export type value = {
+    number: number,
+    color: string
+}
+
+export type result = {
+    payout: number,
+    won: boolean
+}

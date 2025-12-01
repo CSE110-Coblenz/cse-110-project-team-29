@@ -2,6 +2,7 @@ import { ScreenController, type Screen, type ScreenSwitcher } from "./ScreenCont
 import { TitleScreenController } from "./TitleScreenController.ts";
 import { GenericActController } from "./GenericActController.ts";
 import { RewardsController } from "./RewardScreenController.ts";
+import { MiniGame2Controller } from "./MiniGame2Controller"
 import { Act1View } from "../views/Act1View.ts";
 import { Act2View } from "../views/Act2View.ts";
 import { Act3View } from "../views/Act3View.ts";
@@ -45,11 +46,15 @@ export class AppScreenSwitcher implements ScreenSwitcher {
                 this.currentAct = "act2";
                 this.currentController = new GenericActController(
                     this,
-                    () => this.switchToScreen({type: "act3"}),
+                    () => this.switchToScreen({type: "minigame2"}),
                     this.questions.act2,
                     Act2View,
                     screen.resumeIndex ?? 0
                 );
+                break;
+
+            case "minigame2":
+                this.currentController = new MiniGame2Controller(this);
                 break;
             
             case "act3":
@@ -84,6 +89,7 @@ export class AppScreenSwitcher implements ScreenSwitcher {
         }
 
        if (this.currentController) {
+            console.log("Switching to " + screen.type);
            this.currentController.show();
            this.currentController.init?.();
         }

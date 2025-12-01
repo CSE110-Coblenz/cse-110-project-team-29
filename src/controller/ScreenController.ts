@@ -2,10 +2,10 @@ import type {View} from "../views/View.ts";
 
 export type Screen =
     | { type: "title" }
-    | { type: "tableOfContents" }
     | { type: "act1" , resumeIndex?: number | undefined}
     | { type: "act2", resumeIndex?: number | undefined}
     | { type: "act3", resumeIndex?: number | undefined}
+    | { type: "minigame2" }
     | { type: "rewards"; isCorrect: boolean; returnTo: "act1" | "act2" | "act3";  nextIndex?: number }
     | { type: "end" }
 
