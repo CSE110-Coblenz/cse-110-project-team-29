@@ -153,7 +153,7 @@ export class SignInput extends Konva.Group {
             if (e.key === 'Enter' && !inputBox.value) {
                 this.updateErrorText("Invalid Bet");
             }
-            else if (e.key === 'Enter' && inputBox.value && isNaN(parseInt(inputBox.value))) {
+            else if (e.key === 'Enter' && isNaN(parseInt(inputBox.value))) {
                 this.updateErrorText("Invalid Bet");
             }
             else if (e.key === 'Enter' && inputBox.value) {

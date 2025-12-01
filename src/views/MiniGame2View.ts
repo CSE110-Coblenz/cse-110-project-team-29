@@ -4,8 +4,10 @@ import { RewardPop } from "../components/RewardPop";
 import { ExitButton } from "../components/exitButton";
 import { RewardsModel } from "../models/RewardsModel";
 import { STAGE_HEIGHT, STAGE_WIDTH } from "../constants";
-import wheel from "../../public/roulette wheel.png";
 import type { result } from "../types";
+
+import wheel from '../roulette wheel.png';
+
 import type { View } from "./View";
 export class MiniGame2View implements View{
     private stage: Konva.Stage;
@@ -15,6 +17,7 @@ export class MiniGame2View implements View{
     private rewardPop: RewardPop;
     private exitButton: ExitButton;
     private switchScreen: () => void
+    private wheel: Konva.Image;
 
     // TODO
     constructor(switchScreen: () => void) {
@@ -57,27 +60,25 @@ export class MiniGame2View implements View{
         this.layer.add(this.exitButton.getGroup());
         this.layer.add(this.exitButton.getPopUp());
 
+        // Add wheel
+        const img = new Image();
+        img.src = wheel;
 
-        // Add roulette circle component
-        // const circle = new Konva.Circle({
-        //     x: 340,
-        //     y: 370,
-        //     radius: 250,
-        //     fill: 'red',
-        //     stroke: 'black',
-        //     strokeWidth: 4,
-        // });
-        const wheelImage = new Image();
-        wheelImage.src = wheel;
-        const img = new Konva.Image({
-            x: 240,
-            y: 370,
-            image: wheelImage,
-            width: 500,
-            height: 500
+
+
+        this.wheel = new Konva.Image({
+            x: 350,
+            y: 380,
+            image: img,
+            width: 600,
+            height: 600
         })
-        this.layer.add(img);
 
+        this.wheel.offsetX(300);
+        this.wheel.offsetY(300);
+
+        this.layer.add(this.wheel);
+        
 
         // Add money text
         this.moneyText = new Konva.Text({
@@ -135,6 +136,29 @@ export class MiniGame2View implements View{
     exit(): void {
         this.hide();
         this.switchScreen();
+    }
+
+    spinWheelAnimation(): void {
+        if (!this.wheel) return;
+
+        const duration = 3000;
+        const start = performance.now();
+
+        const animation = new Konva.Animation(frame => {
+            const now = performance.now();
+            const elapsed = now - start;
+
+            const t = Math.min(elapsed / duration, 1);
+            const speed = 720 * (1 - t * 0.8);
+
+            this.wheel.rotate((speed * frame.timeDiff) / 1000);
+
+            if (elapsed >= duration) {
+                animation.stop();
+            }
+        }, this.layer);
+
+        animation.start();
     }
 
     // reward pop-up

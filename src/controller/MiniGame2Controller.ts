@@ -1,4 +1,3 @@
-import Konva from "konva";
 import { MiniGame2Model } from "../models/MiniGame2Model";
 import { MiniGame2View } from "../views/MiniGame2View";
 import { ScreenController, type ScreenSwitcher } from "./ScreenController";
@@ -32,15 +31,18 @@ export class MiniGame2Controller extends ScreenController {
                 this.view.getInputBox().updateErrorText("Not enough money!");
                 return;
             }
-            const result = this.handleSpin(cond, bet);
+            this.view.spinWheelAnimation();
+            setTimeout(() => {
+                const result = this.handleSpin(cond, bet);
 
-            RewardsModel.getInstance().addCash(result.payout);
-            this.view.popReward(result);
+                RewardsModel.getInstance().addCash(result.payout);
+                this.view.popReward(result);
 
-            this.view.getInputBox().clearInputBox();
-            cond = this.getCondition();
-            // generate new condition and update display after each spin
-            this.view.getInputBox().updateConditionText(cond);
+                this.view.getInputBox().clearInputBox();
+                cond = this.getCondition();
+                // generate new condition and update display after each spin
+                this.view.getInputBox().updateConditionText(cond);
+            }, 3000);
         });
 
         
