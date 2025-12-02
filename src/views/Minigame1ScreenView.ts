@@ -23,7 +23,6 @@ export class Minigame1View implements View {
     private inputs: HTMLInputElement[] = [];
     private labels: HTMLSpanElement[] = [];
 
-
     private betInfoGroup: Konva.Group;
     private betTypeText: Konva.Text;
     private betOddsText: Konva.Text;
@@ -89,11 +88,10 @@ export class Minigame1View implements View {
     }
 
     private initializeDice() {
-        let diceY = 570;
         for (let i = 0; i < 3; i++) {
             let sprite = new Konva.Image({
                 x: 550 + i * 140,
-                y: diceY,
+                y: 570,
                 width: 110,
                 height: 110,
                 image: this.diceImages[0],
@@ -109,7 +107,6 @@ export class Minigame1View implements View {
             y: STAGE_HEIGHT - 140,
         });
     
-        // Background box
         const bgRect = new Konva.Rect({
             width: 450,
             height: 110,
@@ -119,7 +116,6 @@ export class Minigame1View implements View {
             strokeWidth: 2,
         });
     
-        // "Bet Type"
         this.betTypeText = new Konva.Text({
             x: 10,
             y: 10,
@@ -128,8 +124,7 @@ export class Minigame1View implements View {
             fontFamily: "Poppins, Arial",
             fill: "#ffffff",
         });
-    
-        // "Bet Odds"
+
         this.betOddsText = new Konva.Text({
             x: 10,
             y: 50,
