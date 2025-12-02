@@ -55,7 +55,7 @@ export function createInputWithLabel(
     x: number,
     y: number,
     width: number,
-  ): HTMLInputElement {
+  ): [HTMLInputElement, HTMLSpanElement] {
     let container = stage.container();
     let stageRect = container.getBoundingClientRect();
   
@@ -90,8 +90,7 @@ export function createInputWithLabel(
       position();
       window.addEventListener("resize", position);
   
-    return input;
-    //add returning label so that can hide too 
+    return [input, label];
   }
   
 

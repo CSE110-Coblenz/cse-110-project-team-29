@@ -71,6 +71,9 @@ export class Minigame1Controller {
 
 	public setBet(bet: number, betType: string, required_dice: Array<number>) {
 		this.model.bet = bet; 
+		if (this.model.bet > this.model.rewardsModel.getCash() || this.model.bet < 0) {
+			this.model.bet = 0;
+		}
 		this.model.betType = betType; 
 		for (let i = 0; i < 5; i++) {
 			this.model.required_dice[i] = required_dice[i] || 0;

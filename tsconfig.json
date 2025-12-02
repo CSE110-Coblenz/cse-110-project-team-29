@@ -14,7 +14,8 @@
       "noUnusedParameters": true,
       "allowImportingTsExtensions": true,
       "noImplicitReturns": true,
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      "strict": false
     },
     "include": ["src"]
 }
