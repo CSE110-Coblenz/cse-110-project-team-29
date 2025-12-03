@@ -161,6 +161,10 @@ export class MiniGame2View implements View{
         animation.start();
     }
 
+    updateMoney(): void { 
+        this.moneyText.text(`Total Money Earned: $${RewardsModel.getInstance().getCash()}`); 
+    }
+
     // reward pop-up
     public popReward(result: result): void {
         this.rewardPop.showResult(result);

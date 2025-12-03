@@ -20,8 +20,8 @@ export class SignInput extends Konva.Group {
         //styling
         const textPosition = this.signInput.getAbsolutePosition();
         this.inputBox.style.position = 'absolute';
-        this.inputBox.style.top =  textPosition.y + 360 + 'px';
-        this.inputBox.style.left = textPosition.x + 917 + 'px';
+        this.inputBox.style.top =  textPosition.y + 330 + 'px';
+        this.inputBox.style.left = textPosition.x + 852 + 'px';
         this.inputBox.style.width =  200 + 'px'
         this.inputBox.style.fontSize = 16 + 'px';
         this.inputBox.style.border = '2px solid #333';

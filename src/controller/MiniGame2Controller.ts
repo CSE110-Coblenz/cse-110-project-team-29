@@ -34,8 +34,9 @@ export class MiniGame2Controller extends ScreenController {
             this.view.spinWheelAnimation();
             setTimeout(() => {
                 const result = this.handleSpin(cond, bet);
-
+                RewardsModel.getInstance().subtractCash(bet);
                 RewardsModel.getInstance().addCash(result.payout);
+                this.view.updateMoney();
                 this.view.popReward(result);
 
                 this.view.getInputBox().clearInputBox();

@@ -66,7 +66,7 @@ export class RewardPop {
     }
 
     showResult(result: result): void {
-        result.won ? this.popText.text(`You win $${result.payout}!`) : this.popText.text("You lose!");
+        result.won ? this.popText.text(`You won another $${result.payout / 2}!`) : this.popText.text("You lose!");
     }
 
     getGroup(): Konva.Group {
